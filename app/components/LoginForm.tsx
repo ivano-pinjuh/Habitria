@@ -1,7 +1,22 @@
-import { signup } from "./actions";
+'use client'
+
+import { createBrowserClient } from "@supabase/ssr";
+import { login, signup } from "./actions";
 
 export default function LoginForm() {
+  const supabase = createBrowserClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  )
 
+  const signInGoogle = () => {
+    supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: `{location.origin}/auth/callback`,
+      }
+    })
+  }
   
 
   return (
@@ -37,8 +52,18 @@ export default function LoginForm() {
           id="password2" 
           placeholder="Confirm Password" />
 
-          <button className="h-8 mt-6 bg-prim-200" formAction={signup}>
+          <button className="h-8 mt-6 bg-prim-100" formAction={signup}>
             Sign Up
+          </button>
+
+          <button className="h-8 mt-1 bg-prim-100" formAction={login}>
+            Log In
+          </button>
+
+          <hr />
+
+          <button onClick={signInGoogle} className="h-8 bg-prim-200">
+            Sign Up with Google
           </button>
       </form>
 

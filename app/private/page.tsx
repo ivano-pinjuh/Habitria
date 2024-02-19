@@ -1,16 +1,26 @@
-import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 
-import { createClient } from '@/utils/supabase/server'
+import { createServClient } from '@/lib/supabase/server'
 
 export default async function PrivatePage() {
-  const cookieStore = cookies()
-  const supabase = createClient(cookieStore)
-
+  const supabase = createServClient()
   const { data, error } = await supabase.auth.getUser()
+
+  const signOut = async () => {
+    "use server"
+
+    const supabase = createServClient()
+    await supabase.auth.signOut()
+    return redirect("/")
+  }
+
+
   if (error || !data?.user) {
     redirect('/')
   }
 
-  return <p>Hello {data.user.email}</p>
+  return (
+    <div>
+      {!(error || !data?.user) && <form action={signOut}><button className="bg-prim-100 w-40 mt-6">sign out</button></form>}
+    <p>Hello {data.user.email}</p></div>)
 }
