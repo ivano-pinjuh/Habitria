@@ -1,10 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
-import SignUpForm from "./components/SignUpForm"
 
 import { createServClient } from "@/lib/supabase/server"
 import { redirect } from "next/navigation"
 
+import SignUpForm from "./components/SignUpForm"
+import Navbar from "./components/Navbar";
 
 export default async function Home() {
   const supabase = createServClient()
@@ -17,10 +18,11 @@ export default async function Home() {
   
   return (
     <main className="flex min-h-screen flex-col items-center">
-      <div className="w-full min-h-screen flex py-24 gap-24 px-[15vw] pattern-hive-purple-500/5">
-        <div className="flex flex-col items-center w-[40%] gap-10 py-10">
+      <Navbar />
+      <div className="w-full min-h-[calc(100vh-40px)] flex justify-between pt-24 gap-24 px-[15vw] pattern-hive-purple-500/5">
+        <div className="flex flex-col items-center w-[45%] gap-10 py-10">
           <Image className=""
-            src="/Hero.svg"
+            src="/hero.svg"
             width={350}
             height={350}
             alt="Hero image."/>
@@ -28,11 +30,17 @@ export default async function Home() {
           <h3 className="w-full text-center text-3xl font-semibold">
             Motivate yourself to achieve your goals.
           </h3>
-        </div>  
+        </div>
         <SignUpForm />
+
+        {/*<div className="w-full h-fit text-4xl text-center relative bottom-5">
+          &darr;
+          </div>*/}
       </div>
 
-      <div className="w-full py-32 px-[15vw]">
+
+
+      <div className="w-full bg-gradient-to-tl py-32 px-[15vw]">
         <h2 className="w-full text-center text-5xl font-semibold">
           Track Your Habits
         </h2>

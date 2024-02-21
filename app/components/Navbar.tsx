@@ -17,13 +17,13 @@ export default function Navbar() {
       </h2>
 
       <div className="flex items-center gap-20">
-        <Link href="/login">Get Started</Link>
+        <Link href="/register">Get Started</Link>
         <Link href="/login">Learn More</Link>
         {(resolvedTheme === "dark" && mounted) && <p className="cursor-pointer" onClick={() => {setTheme("light")}}>toggle light</p>}
         {(resolvedTheme === "light" && mounted) && <p className="cursor-pointer" onClick={() => {setTheme("dark")}}>toggle dark</p>}
       </div>
       
-      <Link href="/login" className="dark:bg-bg-l-100 bg-bg-d-100 text-text-d-100 dark:text-text-l-100 px-8 py-1 rounded-md">
+      <Link href="/login" className="hover:opacity-85 dark:bg-bg-l-100 bg-bg-d-100 text-text-d-100 dark:text-text-l-100 px-8 py-1 rounded-md">
         Login
       </Link>
     </nav>

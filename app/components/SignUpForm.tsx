@@ -1,9 +1,8 @@
 'use client'
 
 import { createBrowserClient } from "@supabase/ssr";
-import { signup } from "./actions";
+import { signup } from "@/lib/supabase/supabase-actions";
 import { useState, useEffect } from "react";
-import { FaLessThanEqual } from "react-icons/fa";
 
 export default function SignUpForm() {
   const [email, setEmail] = useState("")
@@ -85,15 +84,15 @@ export default function SignUpForm() {
       </h2>
 
       <form className="flex flex-col w-full gap-4 px-4">
-        <input className="dark:bg-bg-d-300 px-3 h-8 bg-bg-l-200 outline-none transition-all text-sm"
+        <input className="border border-bg-d-100 dark:border-none dark:bg-bg-d-300 px-3 h-8 bg-bg-l-200 outline-none transition-all text-sm"
           type="text"
           autoComplete="off"
           name="username" 
           id="username" 
-          placeholder="Username" />
+          placeholder="Display Name" />
 
 
-        <input className={`${(!isValid.email && email.length > 0) && "border border-red-500"} dark:bg-bg-d-300 px-3 h-8 bg-bg-l-200 outline-none transition-all text-sm`}
+        <input className={`${(!isValid.email && email.length > 0) && "border border-red-500"} border border-bg-d-100 dark:border-none dark:bg-bg-d-300 px-3 h-8 bg-bg-l-200 outline-none transition-all text-sm`}
           onChange={handleEmail}
           type="email" 
           name="email" 
@@ -102,7 +101,7 @@ export default function SignUpForm() {
           required/>
 
 
-        <input className={`${!(isValid.password || password.length < 1) && "border border-red-500"} dark:bg-bg-d-300 px-3 h-8 bg-bg-l-200 outline-none transition-all text-sm`}
+        <input className={`${!(isValid.password || password.length < 1) && "border border-red-500"} border border-bg-d-100 dark:border-none dark:bg-bg-d-300 px-3 h-8 bg-bg-l-200 outline-none transition-all text-sm`}
           onChange={handlePassword}
           type="password" 
           name="password" 
@@ -115,7 +114,7 @@ export default function SignUpForm() {
           Password must be 8 characters or more
         </label>} 
 
-        <input className={`${(!isValid.password2 && password2.length > 3) && "border border-red-500"} dark:bg-bg-d-300 px-3 h-8 bg-bg-l-200 outline-none transition-all text-sm`}
+        <input className={`${(!isValid.password2 && password2.length > 3) && "border border-red-500"} border border-bg-d-100 dark:border-none dark:bg-bg-d-300 px-3 h-8 bg-bg-l-200 outline-none transition-all text-sm`}
           onChange={handlePassword2}
           type="password" 
           name="password2" 
@@ -127,13 +126,14 @@ export default function SignUpForm() {
           Password confirmation doesn't match password.
         </label>}
         
-
-        <button disabled={!isValid.form} className={`${!isValid.form && "opacity-45"} h-12 rounded-md mt-14 bg-prim-100 transition-all`} formAction={signup}>
+        <p className="text-xs mt-2">
+          By clicking the button below, you are indicating that you have read and agree to the Terms of Service and Privacy Policy.
+        </p>
+        <button disabled={!isValid.form} className={`${!isValid.form && "opacity-45"} h-12 rounded-md mt-6 bg-prim-100 transition-all`} formAction={signup}>
           Sign Up
         </button>
 
         <div className="w-full h-[1px] dark:bg-bg-l-100 bg-bg-d-100"></div>
-
       </form>
 
       <div className="w-full px-4 mt-4">
@@ -141,9 +141,6 @@ export default function SignUpForm() {
           Sign Up with Google
         </button>
       </div>
-
-      
-
     </div>
   )
 }
