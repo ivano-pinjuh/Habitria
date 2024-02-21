@@ -5,7 +5,7 @@ import { signup } from "./actions";
 import { useState, useEffect } from "react";
 import { FaLessThanEqual } from "react-icons/fa";
 
-export default function LoginForm() {
+export default function SignUpForm() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [password2, setPassword2] = useState("")
@@ -79,13 +79,13 @@ export default function LoginForm() {
   
 
   return (
-    <div className="flex flex-grow flex-col items-center py-4 dark:bg-bg-d-300 bg-bg-l-200">
+    <div className="flex flex-grow flex-col items-center py-4">
       <h2 className="font-semibold text-3xl mb-8">
         Sign Up For Free
       </h2>
 
-      <form className="flex flex-col w-full gap-2 px-4">
-        <input className="dark:bg-bg-d-200 px-3 h-8 bg-bg-l-200 outline-none transition-all text-sm"
+      <form className="flex flex-col w-full gap-4 px-4">
+        <input className="dark:bg-bg-d-300 px-3 h-8 bg-bg-l-200 outline-none transition-all text-sm"
           type="text"
           autoComplete="off"
           name="username" 
@@ -93,7 +93,7 @@ export default function LoginForm() {
           placeholder="Username" />
 
 
-        <input className={`${(!isValid.email && email.length > 0) && "border border-red-500"} dark:bg-bg-d-200 px-3 h-8 bg-bg-l-200 outline-none transition-all text-sm`}
+        <input className={`${(!isValid.email && email.length > 0) && "border border-red-500"} dark:bg-bg-d-300 px-3 h-8 bg-bg-l-200 outline-none transition-all text-sm`}
           onChange={handleEmail}
           type="email" 
           name="email" 
@@ -102,7 +102,7 @@ export default function LoginForm() {
           required/>
 
 
-        <input className={`${!(isValid.password || password.length < 1) && "border border-red-500"} dark:bg-bg-d-200 px-3 h-8 bg-bg-l-200 outline-none transition-all text-sm`}
+        <input className={`${!(isValid.password || password.length < 1) && "border border-red-500"} dark:bg-bg-d-300 px-3 h-8 bg-bg-l-200 outline-none transition-all text-sm`}
           onChange={handlePassword}
           type="password" 
           name="password" 
@@ -115,7 +115,7 @@ export default function LoginForm() {
           Password must be 8 characters or more
         </label>} 
 
-        <input className={`${(!isValid.password2 && password2.length > 3) && "border border-red-500"} dark:bg-bg-d-200 px-3 h-8 bg-bg-l-200 outline-none transition-all text-sm`}
+        <input className={`${(!isValid.password2 && password2.length > 3) && "border border-red-500"} dark:bg-bg-d-300 px-3 h-8 bg-bg-l-200 outline-none transition-all text-sm`}
           onChange={handlePassword2}
           type="password" 
           name="password2" 
@@ -128,14 +128,16 @@ export default function LoginForm() {
         </label>}
         
 
-        <button disabled={!isValid.form} className={`${!isValid.form && "opacity-45"} h-8 mt-6 bg-prim-100`} formAction={signup}>
+        <button disabled={!isValid.form} className={`${!isValid.form && "opacity-45"} h-12 rounded-md mt-14 bg-prim-100 transition-all`} formAction={signup}>
           Sign Up
         </button>
-        <hr />
+
+        <div className="w-full h-[1px] dark:bg-bg-l-100 bg-bg-d-100"></div>
+
       </form>
 
-      <div className="w-full px-4 mt-3">
-        <button onClick={signInGoogle} className="w-full h-8 bg-prim-100">
+      <div className="w-full px-4 mt-4">
+        <button onClick={signInGoogle} className="w-full h-10 dark:border-bg-l-100 border-bg-d-100 border hover:opacity-90 bg-bg-l-200 dark:bg-bg-d-300 rounded transition-all">
           Sign Up with Google
         </button>
       </div>
