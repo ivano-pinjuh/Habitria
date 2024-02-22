@@ -11,12 +11,12 @@ export default function Navbar() {
   useEffect(() => {setMounted(true)}, [])
 
   return (
-    <nav className="flex items-center w-full justify-between h-20 dark:text-text-d-100 text-text-l-100 px-28 shadow-lg sticky dark:bg-bg-d-100 bg-bg-l-100 top-0 z-50">
+    <nav className="flex items-center w-full justify-between h-20 dark:text-text-d-100 text-text-l-100 px-10 lg:px-28 shadow-lg sticky dark:bg-bg-d-100 bg-bg-l-100 top-0 z-50">
       <h2 className="text-2xl font-bold">
         <Link href="/">Habitria</Link>
       </h2>
 
-      <div className="flex items-center gap-20">
+      <div className="hidden md:flex items-center gap-20">
         <Link href="/register">Get Started</Link>
         <Link href="/login">Learn More</Link>
         {(resolvedTheme === "dark" && mounted) && <p className="cursor-pointer" onClick={() => {setTheme("light")}}>toggle light</p>}

@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@nextui-org/dropdown": "^2.1.16",
     "@supabase/ssr": "^0.1.0",
     "@supabase/supabase-js": "^2.39.6",
     "next": "14.1.0",

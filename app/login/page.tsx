@@ -82,7 +82,7 @@ export default function Register() {
   return (
     <div className="w-full min-h-screen pt-16 items-center flex flex-col px-[15vw] pattern-hive-purple-500/5">
 
-      <div className="w-[50%] flex flex-grow flex-col items-center py-4">
+      <div className="lg:w-[55%] flex flex-grow flex-col items-center py-4">
         <Link href={"/"} className="flex items-center mb-6">
           <Image className="filter"
             src={"logo.svg"}
@@ -97,7 +97,7 @@ export default function Register() {
         
         <div className="w-full px-4 mb-4">
           <button onClick={signInGoogle} className="w-full h-10 dark:border-bg-l-100 border-bg-d-100 border hover:opacity-90 bg-bg-l-200 dark:bg-bg-d-300 rounded transition-all">
-            Sign Up with Google
+            Continue with Google
           </button>
         </div>
 
