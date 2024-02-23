@@ -13,7 +13,7 @@ export default async function Home() {
 
 
   if (data?.user) {
-    
+    redirect("/tasks")
   }
   
   return (
@@ -23,11 +23,12 @@ export default async function Home() {
       
       <div className="w-full min-h-[calc(100vh-40px)] shadow-2xl z-20 flex flex-col-reverse md:flex-row justify-between pt-24 gap-14 md:gap-24 px-[10vw] md:px-[15vw] pattern-hive-purple-500/5">
         <div className="flex flex-col items-center md:w-[45%] gap-10 py-10">
-          <Image className=""
+          <Image className="w-auto h-auto"
             src="/hero.svg"
             width={350}
             height={350}
-            alt="Hero image."/>
+            alt="Hero image."
+            priority/>
 
           <h3 className="w-full text-center text-3xl font-semibold">
             Motivate yourself to achieve your goals.

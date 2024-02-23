@@ -83,12 +83,13 @@ export default function Register() {
     <div className="w-full min-h-screen pt-16 items-center flex flex-col px-[15vw] pattern-hive-purple-500/5">
 
       <div className="lg:w-[55%] flex flex-grow flex-col items-center py-4">
-        <Link href={"/"} className="flex items-center mb-6">
+        <Link href={"/"} className="flex items-center mb-6 w-auto h-auto">
           <Image className="filter"
             src={"logo.svg"}
             width={75}
             height={80}
-            alt="Habitria logo."/>
+            alt="Habitria logo."
+            priority/>
             
           <h2 className="font-semibold text-4xl">
             Habitria
@@ -117,7 +118,7 @@ export default function Register() {
           </div>
 
           <div className="w-full flex flex-col gap-2">
-            <label htmlFor="username">
+            <label htmlFor="email">
               Email
             </label>
             <input className={`${(!isValid.email && email.length > 0) && "border border-red-500"} dark:bg-bg-d-300 px-3 h-12 bg-bg-l-200 outline-none transition-all text-sm`}
@@ -130,7 +131,7 @@ export default function Register() {
           </div>
 
           <div className="w-full flex flex-col gap-2">
-            <label htmlFor="username">
+            <label htmlFor="password">
               Password
             </label>
             <input className={`${!(isValid.password || password.length < 1) && "border border-red-500"} dark:bg-bg-d-300 px-3 h-12 bg-bg-l-200 outline-none transition-all text-sm`}
@@ -148,7 +149,7 @@ export default function Register() {
           </div>
 
           <div className="w-full flex flex-col gap-2">
-            <label htmlFor="username">
+            <label htmlFor="password2">
               Confirm Password
             </label>
             <input className={`${(!isValid.password2 && password2.length > 3) && "border border-red-500"} dark:bg-bg-d-300 px-3 h-12 bg-bg-l-200 outline-none transition-all text-sm`}

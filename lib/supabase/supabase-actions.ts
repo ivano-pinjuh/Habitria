@@ -24,7 +24,7 @@ export async function login(formData: FormData) {
   }
 
   revalidatePath('/', 'layout')
-  redirect('/')
+  redirect('/tasks')
 }
 
 export async function signup(formData: FormData) {
@@ -36,6 +36,11 @@ export async function signup(formData: FormData) {
   const data = {
     email: formData.get('email') as string,
     password: formData.get('password') as string,
+    options: {
+      data: {
+        name: formData.get('username') as string
+      }
+    }
   }
 
   const { error } = await supabase.auth.signUp(data)
@@ -45,5 +50,5 @@ export async function signup(formData: FormData) {
   }
 
   revalidatePath('/', 'layout')
-  redirect('/')
+  redirect('/tasks')
 }
