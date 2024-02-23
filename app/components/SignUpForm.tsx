@@ -19,11 +19,12 @@ export default function SignUpForm() {
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   )
 
+
   const signInGoogle = () => {
     supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `{location.origin}/auth/callback`,
+        redirectTo: `${location.origin}/auth/callback`,
       }
     })
   }

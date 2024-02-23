@@ -25,7 +25,7 @@ export default function Register() {
     supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `{location.origin}/auth/callback`,
+        redirectTo: `${location.origin.replace("/register", "")}/auth/callback`,
       }
     })
   }
@@ -83,7 +83,7 @@ export default function Register() {
     <div className="w-full min-h-screen pt-16 items-center flex flex-col px-[15vw] pattern-hive-purple-500/5">
 
       <div className="lg:w-[55%] flex flex-grow flex-col items-center py-4">
-        <Link href={"/"} className="flex items-center mb-6 w-auto h-auto">
+        <Link href={"/"} className="flex items-center mb-6">
           <Image className="filter"
             src={"logo.svg"}
             width={75}
