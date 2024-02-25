@@ -3,10 +3,12 @@
 import HabitItem from "./HabitItem"
 
 import { createHabit, getHabits } from "@/lib/supabase/db-actions"
-import { useState, useEffect } from "react";
+import { useState, useEffect } from "react"
+
 
 export function Habits(){
   const [habitData, setHabitData] = useState<Habit[]>([])
+
 
   const fetchData = async () => {
     try {
@@ -25,17 +27,25 @@ export function Habits(){
       fetchData()
     }
   }
+  const handleBlur = (event: any) => {
+    if (event.target.value.length > 0){
+      createHabit(event.target.value);
+      event.target.value = "";
+      fetchData();
+    } 
+  };
 
-  const handleDelete = (id: string) => {
-    let data = habitData.filter(habit => habit.id !== id)
-    setHabitData(data)
+
+  const handleReload = (id: string) => {
+    fetchData()
   }
-
 
 
   useEffect(() => {
     fetchData();
   }, [])
+
+ 
 
   return (
     <div className='w-full md:w-[32%]'>
@@ -58,7 +68,10 @@ export function Habits(){
             placeholder='Add a Habit'
             name="add-habit" 
             id="add-habit"
-            onKeyDown={handleKeyPress}/>
+            autoComplete="off"
+            onKeyDown={handleKeyPress}
+            onBlur={handleBlur}/>
+          
 
               
           <p className='absolute top-16 left-4 text-xs opacity-0 -translate-y-2 group-focus-within:translate-y-0 group-focus-within:opacity-100 duration-300 transition-all'>
@@ -69,7 +82,7 @@ export function Habits(){
 
         <div className='w-full flex flex-col gap-2 rounded flex-grow'>
           {habitData.map(habit => {
-            return <HabitItem onDelete={handleDelete} title={habit.title} id={habit.id} key={habit.title} />
+            return <HabitItem onReload={handleReload} title={habit.title} id={habit.id} key={habit.title} />
           })}
           
         </div>

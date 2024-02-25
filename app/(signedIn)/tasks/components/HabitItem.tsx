@@ -1,18 +1,40 @@
-{/*<span className='absolute opacity-0 group-hover:opacity-100 group-hover:-translate-y-7 duration-700 text-sm"'>
-                <span className='font-semibold'>Tip:</span> To add multiple Habits, separate each one using a line break (Shift + Enter) and then press "Enter".
-</span>*/}
+"use client"
+
+import { deleteHabit, updateHabit } from "@/lib/supabase/db-actions"
+import { SlOptionsVertical } from "react-icons/sl"
+
+import { Modal } from "./Modal"
+
+import { useState } from "react"
+
+export default function HabitItem({ title, id, onReload } : any) {
+  const [showModal, setShowModal] = useState(false)
 
 
-import { deleteHabit } from "@/lib/supabase/db-actions"
+  function onClose() {
+    setShowModal(false)
+  }
 
-export default function HabitItem({ title, id, onDelete } : any) {
+  function onSave(title: string) {
+    updateHabit(id, title)
+    setShowModal(false)
+    onReload()
+  }
+
 
   const deleteHandler = () => {
     deleteHabit(id)
-    onDelete(id)
+    onReload(id)
   }
+
   return (
-    <div className="w-full flex justify-between h-16 bg-bg-l-200 dark:bg-bg-d-300 rounded cursor-grab hover:shadow-xl shadow-md transition-all">
+    <>
+    <Modal showModal={showModal} onSave={onSave} onDelete={deleteHandler} onClose={onClose} type={"Habit"} title={title} >
+        
+    </Modal>
+    <div className="group w-full flex justify-between h-16 bg-bg-l-200 dark:bg-bg-d-300 rounded cursor-grab hover:shadow-xl shadow-md transition-all">
+      
+
       <div className="w-[9%] flex justify-center items-center rounded-l h-full bg-prim-100">
         <div className="cursor-pointer w-7 h-7 flex items-center text-2xl justify-center bg-black bg-opacity-25 hover:bg-opacity-40 rounded-full transition-all">
           <p className="mb-1">
@@ -21,14 +43,22 @@ export default function HabitItem({ title, id, onDelete } : any) {
         </div>
       </div>
 
-      <div className="flex justify-between flex-grow px-3 py-2 relative">
+      <div className="flex justify-between flex-grow px-3 py-2 relative" onClick={() => setShowModal(true)} >
+        
         <h6 className="font-semibold">
           {title}
         </h6>
+
+        <div className="group/opt cursor-pointer hidden group-hover:inline-block transition-all h-6 relative">
+          <SlOptionsVertical className="hover:opacity-100 opacity-70" />
+          <p className="absolute text-xs text-text-d-100 bg-bg-d-200 px-2 py-1 rounded -top-7 -left-4 group-hover/opt:opacity-100 duration-300 opacity-0">
+            Options
+          </p>
+        </div>
       </div>
 
       <div className="w-[9%] flex justify-center items-center rounded-r h-full bg-prim-100">
-        <div onClick={deleteHandler} className="cursor-pointer w-7 h-7 flex items-center text-2xl justify-center bg-black bg-opacity-25 hover:bg-opacity-40 rounded-full transition-all">
+        <div className="cursor-pointer w-7 h-7 flex items-center text-2xl justify-center bg-black bg-opacity-25 hover:bg-opacity-40 rounded-full transition-all">
           <p className="mb-[1px]">
             -
           </p>
@@ -36,6 +66,7 @@ export default function HabitItem({ title, id, onDelete } : any) {
       </div>
 
     </div>
+    </>
   )
 }
 
