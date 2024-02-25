@@ -21,7 +21,8 @@ export function Todos(){
   }
 
   const handleKeyPress = (event: any) => {
-    if (event.key === 'Enter') {
+    event.preventDefault()
+    if (event.key === 'Enter' && event.target.value.length > 0) {
       createItem(2, event.target.value)
       event.target.value = ""
       fetchData()
