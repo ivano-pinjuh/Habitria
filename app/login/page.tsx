@@ -54,7 +54,8 @@ export default function Login() {
             </label>
             <input className={`dark:bg-bg-d-300 px-3 h-12 bg-bg-l-200 outline-none transition-all text-sm`}
               type="email" 
-              name="email" 
+              name="email"
+              autoComplete="email" 
               id="email" 
               placeholder="Email" 
               required/>
@@ -73,7 +74,7 @@ export default function Login() {
             <input className={`dark:bg-bg-d-300 px-3 h-12 bg-bg-l-200 outline-none transition-all text-sm`}
               type="password" 
               name="password" 
-              autoComplete="new-password"
+              autoComplete="current-password"
               id="password" 
               placeholder="Password" 
               required/>

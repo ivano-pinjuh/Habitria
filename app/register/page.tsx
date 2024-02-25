@@ -125,6 +125,7 @@ export default function Register() {
               onChange={handleEmail}
               type="email" 
               name="email" 
+              autoComplete="email"
               id="email" 
               placeholder="Email" 
               required/>
@@ -156,6 +157,7 @@ export default function Register() {
               onChange={handlePassword2}
               type="password" 
               name="password2" 
+              autoComplete="new-password"
               id="password2" 
               placeholder="Confirm Password" 
               required/>

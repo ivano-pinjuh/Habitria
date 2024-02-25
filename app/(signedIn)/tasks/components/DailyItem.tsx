@@ -1,7 +1,7 @@
 "use client"
 
 type Props = {
-  habit: ItemData,
+  daily: ItemData,
   onReload: () => void
 }
 
@@ -12,7 +12,7 @@ import { Modal } from "./Modal"
 
 import { useState } from "react"
 
-export default function HabitItem({ habit, onReload } : Props) {
+export default function DailyItem({ daily, onReload } : Props) {
   const [showModal, setShowModal] = useState(false)
 
 
@@ -21,21 +21,21 @@ export default function HabitItem({ habit, onReload } : Props) {
   }
 
   function onSave(title: string, note: string) {
-    updateItem(habit.id, title, note)
+    updateItem(daily.id, title, note)
     setShowModal(false)
     onReload()
   }
 
 
   const deleteHandler = () => {
-    deleteItem(habit.id)
+    deleteItem(daily.id)
     setShowModal(false)
     onReload()
   }
 
   return (
     <>
-    <Modal showModal={showModal} onSave={onSave} onDelete={deleteHandler} onClose={onClose} type={"Habit"} title={habit.title} note={habit.note} >
+    <Modal showModal={showModal} onSave={onSave} onDelete={deleteHandler} onClose={onClose} type={"Daily"} title={daily.title} note={daily.note} >
         
     </Modal>
     <div className="group w-full flex justify-between min-h-16 h-fit bg-bg-l-200 dark:bg-bg-d-300 rounded cursor-grab hover:shadow-xl shadow-md transition-all">
@@ -53,10 +53,10 @@ export default function HabitItem({ habit, onReload } : Props) {
         
         <div className="flex flex-col">
           <h6 className="font-semibold">
-            {habit.title}
+            {daily.title}
           </h6>
           <p className="text-xs">
-            {habit.note}
+            {daily.note}
           </p>
         </div>
         
@@ -81,4 +81,3 @@ export default function HabitItem({ habit, onReload } : Props) {
     </>
   )
 }
-

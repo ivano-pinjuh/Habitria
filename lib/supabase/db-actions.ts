@@ -3,32 +3,32 @@
 import { revalidatePath } from "next/cache"
 import { createServClient } from "./server"
 
-export async function createHabit(title: string){
+export async function createItem(type: number, title: string){
   const supabase = createServClient()
 
   const result = await supabase
         .from("habits")
-        .insert({title: title}).single()
+        .insert({ title, type }).single()
 
   //return JSON.stringify(result)
 }
 
-export async function getHabits(){
+export async function getItems(type: number){
   const supabase = createServClient()
 
-  return await supabase.from("habits").select("*")
+  return await supabase.from("habits").select("*").eq("type", type)
 }
 
-export async function deleteHabit(id: string){
+export async function deleteItem(id: string){
   const supabase = createServClient()
 
   await supabase.from("habits").delete().eq("id", id)
-  revalidatePath("/tasks")
+  //revalidatePath("/tasks")
 }
 
-export async function updateHabit(id: string, title: string){
+export async function updateItem(id: string, title: string, note: string ){
   const supabase = createServClient()
 
-  await supabase.from("habits").update({ title }).eq("id", id)
-  revalidatePath("/tasks")
+  await supabase.from("habits").update({ title, note }).eq("id", id)
+  //revalidatePath("/tasks")
 }
