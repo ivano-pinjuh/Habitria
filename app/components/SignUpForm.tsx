@@ -49,7 +49,7 @@ export default function SignUpForm() {
   }
 
   const validateForm = () => {
-    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,10}$/
     let emailValid = false
     let passValid = false
     let pass2Valid = false
@@ -93,7 +93,7 @@ export default function SignUpForm() {
           placeholder="Display Name" />
 
 
-        <input className={`${(!isValid.email && email.length > 0) && "border border-red-500"} border border-bg-d-100 dark:border-none dark:bg-bg-d-300 px-3 h-8 bg-bg-l-200 outline-none transition-all text-sm`}
+        <input className={`${(!isValid.email && email.length > 0) && "border border-red-500"} border border-bg-d-100 dark:bg-bg-d-300 px-3 h-8 bg-bg-l-200 outline-none transition-all text-sm`}
           onChange={handleEmail}
           type="email" 
           name="email" 
@@ -103,7 +103,7 @@ export default function SignUpForm() {
           required/>
 
 
-        <input className={`${!(isValid.password || password.length < 1) && "border border-red-500"} border border-bg-d-100 dark:border-none dark:bg-bg-d-300 px-3 h-8 bg-bg-l-200 outline-none transition-all text-sm`}
+        <input className={`${!(isValid.password || password.length < 1) && "border border-red-500"} border border-bg-d-100 dark:bg-bg-d-300 px-3 h-8 bg-bg-l-200 outline-none transition-all text-sm`}
           onChange={handlePassword}
           type="password" 
           name="password" 
@@ -116,7 +116,7 @@ export default function SignUpForm() {
           Password must be 8 characters or more
         </label>} 
 
-        <input className={`${(!isValid.password2 && password2.length > 3) && "border border-red-500"} border border-bg-d-100 dark:border-none dark:bg-bg-d-300 px-3 h-8 bg-bg-l-200 outline-none transition-all text-sm`}
+        <input className={`${(!isValid.password2 && password2.length > 3) && "border border-red-500"} border border-bg-d-100 dark:bg-bg-d-300 px-3 h-8 bg-bg-l-200 outline-none transition-all text-sm`}
           onChange={handlePassword2}
           type="password" 
           name="password2" 

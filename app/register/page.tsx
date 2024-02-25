@@ -50,7 +50,7 @@ export default function Register() {
   }
 
   const validateForm = () => {
-    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,10}$/
     let emailValid = false
     let passValid = false
     let pass2Valid = false
