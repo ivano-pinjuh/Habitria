@@ -5,7 +5,7 @@ import TodoItem from "./TodoItem"
 import { createItem, getItems } from "@/lib/supabase/db-actions"
 import { useState, useEffect } from "react"
 
-import Loading from "../loading"
+import Loading from "./Loading"
 
 export function Todos(){
   const [todosData, setTodosData] = useState<ItemData[]>([])
@@ -13,16 +13,15 @@ export function Todos(){
 
   const fetchData = async () => {
     try {
-      const data:any = await getItems(2);
-      setTodosData(data.data);
+      const data:any = await getItems(2)
+      setTodosData(data.data)
     } 
     catch (error) {
-      console.error('Error fetching data:', error);
+      console.error('Error fetching data:', error)
     }
   }
 
   const handleKeyPress = (event: any) => {
-    event.preventDefault()
     if (event.key === 'Enter' && event.target.value.length > 0) {
       createItem(2, event.target.value)
       event.target.value = ""
@@ -31,9 +30,9 @@ export function Todos(){
   }
   const handleBlur = (event: any) => {
     if (event.target.value.length > 0){
-      createItem(2, event.target.value);
-      event.target.value = "";
-      fetchData();
+      createItem(2, event.target.value)
+      event.target.value = ""
+      fetchData()
     } 
   };
 
@@ -43,7 +42,7 @@ export function Todos(){
   }
 
   useEffect(() => {
-    fetchData();
+    fetchData()
   }, [])
 
  

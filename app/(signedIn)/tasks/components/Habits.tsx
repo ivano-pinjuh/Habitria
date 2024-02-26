@@ -5,7 +5,7 @@ import HabitItem from "./HabitItem"
 import { createItem, getItems } from "@/lib/supabase/db-actions"
 import { useState, useEffect } from "react"
 
-import Loading from "../loading"
+import Loading from "./Loading"
 
 export function Habits(){
   const [habitData, setHabitData] = useState<ItemData[]>([])
@@ -22,7 +22,6 @@ export function Habits(){
   }
 
   const handleKeyPress = (event: any) => {
-    event.preventDefault()
     if (event.key === 'Enter' && event.target.value.length > 0) {
       createItem(0, event.target.value)
       event.target.value = ""

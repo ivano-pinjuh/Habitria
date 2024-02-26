@@ -12,9 +12,10 @@ import { Modal } from "./Modal"
 
 import { useState } from "react"
 
+
+
 export default function TodoItem({ todo, onReload } : Props) {
   const [showModal, setShowModal] = useState(false)
-
 
   function onClose() {
     setShowModal(false)
@@ -25,7 +26,6 @@ export default function TodoItem({ todo, onReload } : Props) {
     setShowModal(false)
     onReload()
   }
-
 
   const deleteHandler = () => {
     deleteItem(todo.id)
@@ -38,14 +38,14 @@ export default function TodoItem({ todo, onReload } : Props) {
     <Modal showModal={showModal} onSave={onSave} onDelete={deleteHandler} onClose={onClose} type={"To-Do"} title={todo.title} note={todo.note} >
         
     </Modal>
-    <div className="group w-full flex justify-between min-h-16 h-fit bg-bg-l-200 dark:bg-bg-d-300 rounded cursor-grab hover:shadow-xl shadow-md transition-all">
-      
 
+    <div className="group w-full flex justify-between min-h-16 h-fit bg-bg-l-200 dark:bg-bg-d-300 rounded cursor-grab hover:shadow-xl shadow-md transition-all">
       <div className="w-[9%] flex justify-center items-center rounded-l h-full bg-prim-100">
-        <div className="cursor-pointer w-7 h-7 flex items-center text-2xl justify-center bg-black bg-opacity-25 hover:bg-opacity-40 rounded-full transition-all">
-          <p className="mb-1 text-text-d-100">
-            +
-          </p>
+        <div className="w-7 h-7 flex items-center justify-center rounded-lg relative transition-all">
+          {/*<input className="border-2 appearance-auto w-4 h-4 border-bg-l-100 dark:border-bg-d-100 outline-none"
+            type="checkbox" 
+            name="" 
+            id="" />*/}
         </div>
       </div>
 

@@ -5,7 +5,7 @@ import DailyItem from "./DailyItem"
 import { createItem, getItems } from "@/lib/supabase/db-actions"
 import { useState, useEffect } from "react"
 
-import Loading from "../loading"
+import Loading from "./Loading"
 
 export function Dailies(){
   const [dailiesData, setDailiesData] = useState<ItemData[]>([])
@@ -22,7 +22,6 @@ export function Dailies(){
   }
 
   const handleKeyPress = (event: any) => {
-    event.preventDefault()
     if (event.key === 'Enter' && event.target.value.length > 0) {
       createItem(1, event.target.value)
       event.target.value = ""

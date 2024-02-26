@@ -26,9 +26,21 @@ export async function deleteItem(id: string){
   //revalidatePath("/tasks")
 }
 
-export async function updateItem(id: string, title: string, note: string ){
+export async function updateItem(id: string, title: string, note: string, completed?: boolean){
   const supabase = createServClient()
 
-  await supabase.from("habits").update({ title, note }).eq("id", id)
+  try {
+    if (completed !== undefined) {
+      const res = await supabase.from("habits").update({ title, note, completed }).eq("id", id)
+    } 
+    else {
+      const res = await supabase.from("habits").update({ title, note }).eq("id", id)
+      return res.data
+    }
+  } 
+  catch (error) {
+    console.error('Error updating item:', error)
+  }
+
   //revalidatePath("/tasks")
 }
