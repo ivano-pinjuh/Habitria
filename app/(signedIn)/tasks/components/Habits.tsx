@@ -8,16 +8,20 @@ import { useState, useEffect } from "react"
 import Loading from "./Loading"
 
 export function Habits(){
-  const [habitData, setHabitData] = useState<ItemData[]>([])
-
+  const [habitData, setHabitData] = useState<ItemData[]>([{title: "", id: ""}])
+  const [isLoading, setIsLoading] = useState(false)
 
   const fetchData = async () => {
     try {
+      setIsLoading(true)
       const data:any = await getItems(0);
       setHabitData(data.data);
     } 
     catch (error) {
       console.error('Error fetching data:', error);
+    }
+    finally {
+      setIsLoading(false)
     }
   }
 
@@ -49,6 +53,8 @@ export function Habits(){
 
   return (
     <div className='w-full md:w-[32%]'>
+      {isLoading && <div className="w-full absolute top-0 left-0 z-50 h-2 animate-pulse bg-prim-100"></div>}
+
       <div className='flex justify-between items-center'>
         <h3 className='text-xl font-semibold py-1 pl-2'>
           Habits
@@ -81,8 +87,8 @@ export function Habits(){
             
 
         <div className='w-full flex flex-col gap-2 rounded flex-grow'>
-          {!(habitData.length > 0) ? (<Loading />) : (habitData.map(habit => {
-            return <HabitItem habit={habit} onReload={handleReload} key={habit.title} />
+          {(habitData[0]?.title === "") ? (<Loading />) : (habitData.map(habit => {
+            return <HabitItem habit={habit} onReload={handleReload} key={habit.id} />
           }))}
         </div>
       </div>

@@ -8,16 +8,20 @@ import { useState, useEffect } from "react"
 import Loading from "./Loading"
 
 export function Dailies(){
-  const [dailiesData, setDailiesData] = useState<ItemData[]>([])
-
+  const [dailiesData, setDailiesData] = useState<ItemData[]>([{title: "", id: ""}])
+  const [isLoading, setIsLoading] = useState(false)
 
   const fetchData = async () => {
     try {
+      setIsLoading(true)
       const data:any = await getItems(1);
       setDailiesData(data.data);
     } 
     catch (error) {
       console.error('Error fetching data:', error);
+    }
+    finally {
+      setIsLoading(false)
     }
   }
 
@@ -49,6 +53,8 @@ export function Dailies(){
 
   return (
     <div className='w-full md:w-[32%]'>
+      {isLoading && <div className="w-full absolute top-0 left-0 z-50 h-2 animate-pulse bg-prim-100"></div>}
+
       <div className='flex justify-between items-center'>
         <h3 className='text-xl font-semibold py-1 pl-2'>
           Dailies
@@ -81,8 +87,8 @@ export function Dailies(){
             
 
         <div className='w-full flex flex-col gap-2 rounded flex-grow'>
-          {!(dailiesData.length > 0) ? (<Loading />) : (dailiesData.map(daily => {
-            return <DailyItem daily={daily} onReload={handleReload} key={daily.title} />
+          {(dailiesData[0]?.title === "") ? (<Loading />) : (dailiesData.map(daily => {
+            return <DailyItem daily={daily} onReload={handleReload} key={daily.id} />
           }))}
         </div>
       </div>

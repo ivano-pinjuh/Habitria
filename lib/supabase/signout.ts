@@ -7,5 +7,5 @@ export const signOut = async () => {
 
     const supabase = createServClient()
     await supabase.auth.signOut()
-    return redirect("/")
+    return redirect("/") 
 }

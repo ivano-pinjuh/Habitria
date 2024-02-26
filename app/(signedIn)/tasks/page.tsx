@@ -35,14 +35,6 @@ export default async function TasksPage() {
         <Dailies />
         <Todos />
       </div>
-
-      <div className='w-full'>
-        {!(error || !data?.user) && <form action={signOut}><button className="bg-prim-100 w-40 mt-6">sign out</button></form>}
-
-        <p>Hello {data.user.email}</p>
-        <p>Hello {data.user.user_metadata.name}</p>
-      </div>
-      
     </div>
   )
 }
