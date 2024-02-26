@@ -5,6 +5,7 @@ import HabitItem from "./HabitItem"
 import { createItem, getItems } from "@/lib/supabase/db-actions"
 import { useState, useEffect } from "react"
 
+import Loading from "../loading"
 
 export function Habits(){
   const [habitData, setHabitData] = useState<ItemData[]>([])
@@ -81,10 +82,9 @@ export function Habits(){
             
 
         <div className='w-full flex flex-col gap-2 rounded flex-grow'>
-          {habitData.map(habit => {
+          {!(habitData.length > 0) ? (<Loading />) : (habitData.map(habit => {
             return <HabitItem habit={habit} onReload={handleReload} key={habit.title} />
-          })}
-          
+          }))}
         </div>
       </div>
     </div>

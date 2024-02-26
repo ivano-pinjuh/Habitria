@@ -5,6 +5,7 @@ import DailyItem from "./DailyItem"
 import { createItem, getItems } from "@/lib/supabase/db-actions"
 import { useState, useEffect } from "react"
 
+import Loading from "../loading"
 
 export function Dailies(){
   const [dailiesData, setDailiesData] = useState<ItemData[]>([])
@@ -81,10 +82,9 @@ export function Dailies(){
             
 
         <div className='w-full flex flex-col gap-2 rounded flex-grow'>
-          {dailiesData.map(daily => {
+          {!(dailiesData.length > 0) ? (<Loading />) : (dailiesData.map(daily => {
             return <DailyItem daily={daily} onReload={handleReload} key={daily.title} />
-          })}
-          
+          }))}
         </div>
       </div>
     </div>

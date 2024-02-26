@@ -5,6 +5,7 @@ import { Habits } from './components/Habits'
 import { Dailies } from './components/Dailies'
 import { Todos } from './components/Todos'
 
+
 export default async function TasksPage() {
   const supabase = createServClient()
   const { data, error } = await supabase.auth.getUser()

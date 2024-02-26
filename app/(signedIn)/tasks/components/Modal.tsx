@@ -83,7 +83,7 @@ export function Modal({ showModal, onDelete, onClose, onSave, title, note, type,
 
           <div className="flex justify-center mt-6">
             <button onClick={handleDelete} className="text-red-500 text-sm flex items-center gap-1 hover:underline transition-all">
-              <MdOutlineDeleteForever className="text-2xl" /> Delete This {type}
+              <MdOutlineDeleteForever className="text-2xl" /> Delete this {type}
             </button>
           </div>
 

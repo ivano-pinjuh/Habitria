@@ -5,6 +5,7 @@ import TodoItem from "./TodoItem"
 import { createItem, getItems } from "@/lib/supabase/db-actions"
 import { useState, useEffect } from "react"
 
+import Loading from "../loading"
 
 export function Todos(){
   const [todosData, setTodosData] = useState<ItemData[]>([])
@@ -81,10 +82,9 @@ export function Todos(){
             
 
         <div className='w-full flex flex-col gap-2 rounded flex-grow'>
-          {todosData.map(todo => {
+          {!(todosData.length > 0) ? (<Loading />) : (todosData.map(todo => {
             return <TodoItem todo={todo} onReload={handleReload} key={todo.title} />
-          })}
-          
+          }))}
         </div>
       </div>
     </div>
