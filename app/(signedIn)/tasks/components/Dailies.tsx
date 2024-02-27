@@ -8,7 +8,7 @@ import { useState, useEffect } from "react"
 import Loading from "./Loading"
 
 export function Dailies(){
-  const [dailiesData, setDailiesData] = useState<ItemData[]>([{title: "", id: ""}])
+  const [dailiesData, setDailiesData] = useState<ItemData[]>([{type: 1, title: "", id: "", note: "", positive: 0, negative: 0, difficulty: 1}])
   const [isLoading, setIsLoading] = useState(false)
 
   const fetchData = async () => {

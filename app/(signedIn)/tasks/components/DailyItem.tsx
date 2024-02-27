@@ -20,8 +20,8 @@ export default function DailyItem({ daily, onReload } : Props) {
     setShowModal(false)
   }
 
-  function onSave(title: string, note: string) {
-    updateItem(daily.id, title, note)
+  function onSave(title: string, note: string, difficulty: number) {
+    updateItem(daily.id, title, note, difficulty)
     setShowModal(false)
     onReload()
   }
@@ -35,7 +35,7 @@ export default function DailyItem({ daily, onReload } : Props) {
 
   return (
     <>
-    <Modal showModal={showModal} onSave={onSave} onDelete={deleteHandler} onClose={onClose} type={"Daily"} title={daily.title} note={daily.note} >
+    <Modal showModal={showModal} onSave={onSave} onDelete={deleteHandler} onClose={onClose} id={daily.id} type={"Daily"} title={daily.title} note={daily.note} >
         
     </Modal>
     <div className="group w-full flex justify-between min-h-16 h-fit bg-bg-l-200 dark:bg-bg-d-300 rounded cursor-grab hover:shadow-xl shadow-md transition-all">

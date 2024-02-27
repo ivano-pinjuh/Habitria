@@ -2,10 +2,11 @@ import { useRef } from "react"
 
 import { MdOutlineDeleteForever } from "react-icons/md"
 
-export function Modal({ showModal, onDelete, onClose, onSave, title, note, type, children }: any ){
+export function Modal({ showModal, onDelete, onClose, onSave, title, note, difficulty, id, type, children }: any ){
   const modalRef = useRef<null | HTMLDialogElement>(null)
   const titleRef = useRef<null | HTMLInputElement>(null)
   const noteRef = useRef<null | HTMLTextAreaElement>(null)
+  const difficultyRef = useRef<null | HTMLSelectElement>(null)
 
   if (showModal){
     modalRef.current?.showModal()
@@ -18,7 +19,7 @@ export function Modal({ showModal, onDelete, onClose, onSave, title, note, type,
 
   const handleSave = () => {
     modalRef.current?.close()
-    onSave(titleRef.current?.value, noteRef.current?.value)
+    onSave(titleRef.current?.value, noteRef.current?.value, difficultyRef.current?.value)
   }
 
   const handleDelete = () => {
@@ -49,7 +50,7 @@ export function Modal({ showModal, onDelete, onClose, onSave, title, note, type,
           
           <div className="w-full flex flex-col gap-6">
             <div>
-              <label htmlFor={title} className="font-semibold text-sm pl-1" >
+              <label htmlFor={id} className="font-semibold text-sm pl-1" >
                 Title*
               </label>
               <input className='w-full text-sm duration-300 bg-bg-l-100 dark:bg-bg-d-300 h-10 px-4 rounded outline-none shadow-md transition-all' 
@@ -57,20 +58,20 @@ export function Modal({ showModal, onDelete, onClose, onSave, title, note, type,
                 type="text" 
                 placeholder='Add a title'
                 name="add-title" 
-                id={title}
+                id={id}
                 defaultValue={title}
                 autoComplete="off" />
             </div>
 
             <div>
-              <label htmlFor={`${title}2`} className="font-semibold text-sm pl-1" >
+              <label htmlFor={`${id}2`} className="font-semibold text-sm pl-1" >
                 Notes
               </label>
               <textarea className='w-full text-sm duration-300 bg-bg-l-100 dark:bg-bg-d-300 h-20 px-4 py-1 rounded outline-none shadow-md transition-all' 
                 ref={noteRef}
                 placeholder='Add a note'
                 name="add-note" 
-                id={`${title}2`}
+                id={`${id}2`}
                 defaultValue={note}
                 autoComplete="off" />
             </div>
@@ -78,7 +79,27 @@ export function Modal({ showModal, onDelete, onClose, onSave, title, note, type,
           </div>
         </div>
 
-        <div className="px-5 pb-6">
+        <div className="px-5 pt-4 pb-6">
+          <div className="relative">
+            <label htmlFor={`${id}3`} className="font-semibold text-sm pl-1" >
+              Difficulty
+            </label>
+            <select className="w-full cursor-pointer appearance-none text-sm duration-300 bg-bg-l-100 dark:bg-bg-d-300 h-10 px-4 rounded outline-none shadow-md transition-all"
+              name="" 
+              id={`${id}3`}
+              ref={difficultyRef}
+              defaultValue={difficulty}
+            >
+              <option value="1">Very Easy</option>
+              <option value="2">Easy</option>
+              <option value="3">Medium</option>
+              <option value="4">Hard</option>
+            </select>
+            <p className="absolute right-2 bottom-2">
+              &#11167;
+            </p>
+          </div>
+          
           {children}
 
           <div className="flex justify-center mt-6">

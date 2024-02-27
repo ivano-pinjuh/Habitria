@@ -16,13 +16,23 @@ export default function HabitItem({ habit, onReload } : Props) {
   const [showModal, setShowModal] = useState(false)
 
 
-  function onClose() {
+  const onClose = () => {
     setShowModal(false)
   }
 
-  function onSave(title: string, note: string) {
-    updateItem(habit.id, title, note)
+  const onSave = (title: string, note: string, difficulty: number) => {
+    updateItem(habit.id, title, note, difficulty)
     setShowModal(false)
+    onReload()
+  }
+
+  const updatePositive = () => {
+    updateItem(habit.id, habit.title, habit.note, habit.difficulty, {positive: habit.positive + 1, negative: habit.negative })
+    onReload()
+  }
+
+  const updateNegative = () => {
+    updateItem(habit.id, habit.title, habit.note, habit.difficulty, {positive: habit.positive, negative: habit.negative + 1 })
     onReload()
   }
 
@@ -35,14 +45,14 @@ export default function HabitItem({ habit, onReload } : Props) {
 
   return (
     <>
-    <Modal showModal={showModal} onSave={onSave} onDelete={deleteHandler} onClose={onClose} type={"Habit"} title={habit.title} note={habit.note} >
+    <Modal showModal={showModal} onSave={onSave} onDelete={deleteHandler} onClose={onClose} id={habit.id} type={"Habit"} title={habit.title} note={habit.note} difficulty={habit.difficulty} >
         
     </Modal>
     <div className="group w-full flex justify-between min-h-16 h-fit bg-bg-l-200 dark:bg-bg-d-300 rounded cursor-grab hover:shadow-xl shadow-md transition-all">
       
 
       <div className="w-[9%] flex justify-center items-center rounded-l h-full bg-prim-100">
-        <div className="cursor-pointer w-7 h-7 flex items-center text-2xl justify-center bg-black bg-opacity-25 hover:bg-opacity-40 rounded-full transition-all">
+        <div onClick={updatePositive} className="cursor-pointer w-7 h-7 flex items-center text-2xl justify-center bg-black bg-opacity-25 hover:bg-opacity-40 rounded-full transition-all">
           <p className="mb-1 text-text-d-100">
             +
           </p>
@@ -50,7 +60,6 @@ export default function HabitItem({ habit, onReload } : Props) {
       </div>
 
       <div className="flex justify-between flex-grow px-3 py-2 relative" onClick={() => setShowModal(true)} >
-        
         <div className="flex flex-col">
           <h6 className="font-semibold">
             {habit.title}
@@ -59,7 +68,15 @@ export default function HabitItem({ habit, onReload } : Props) {
             {habit.note}
           </p>
         </div>
-        
+
+        <div className="flex gap-1 absolute text-xs right-2 bottom-2">
+          <p>
+            {`${habit.positive > 0 ? "+" : ""}${habit.positive} |`}
+          </p>
+          <p>
+          {`${habit.negative > 0 ? "-" : ""}${habit.negative}`}
+          </p>
+        </div>
 
         <div className="group/opt cursor-pointer hidden group-hover:inline-block transition-all h-6 relative">
           <SlOptionsVertical className="absolute right-2 hover:opacity-100 opacity-70" />
@@ -70,7 +87,7 @@ export default function HabitItem({ habit, onReload } : Props) {
       </div>
 
       <div className="w-[9%] flex justify-center items-center rounded-r h-full bg-prim-100">
-        <div className="cursor-pointer w-7 h-7 flex items-center text-2xl justify-center bg-black bg-opacity-25 hover:bg-opacity-40 rounded-full transition-all">
+        <div onClick={updateNegative} className="cursor-pointer w-7 h-7 flex items-center text-2xl justify-center bg-black bg-opacity-25 hover:bg-opacity-40 rounded-full transition-all">
           <p className="mb-[1px] text-text-d-100">
             -
           </p>

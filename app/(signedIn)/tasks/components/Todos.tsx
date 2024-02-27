@@ -8,7 +8,7 @@ import { useState, useEffect } from "react"
 import Loading from "./Loading"
 
 export function Todos(){
-  const [todosData, setTodosData] = useState<ItemData[]>([{title: "", id: ""}])
+  const [todosData, setTodosData] = useState<ItemData[]>([{type: 2, title: "", id: "", note: "", positive: 0, negative: 0, difficulty: 1}])
   const [isLoading, setIsLoading] = useState(false)
 
   const fetchData = async () => {

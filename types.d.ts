@@ -1,14 +1,14 @@
 type ItemData = {
-  type?: number,
+  type: number,
   created_at?: string,
   created_by?: string,
-  difficulty?: number,
+  difficulty: number,
   id: string,
   tags?: string[],
-  note?: string,
+  note: string,
   title: string
-  negative?: number,
-  positive?: string,
+  negative: number,
+  positive: number,
   completed?: boolean,
   repeats?: number
 }

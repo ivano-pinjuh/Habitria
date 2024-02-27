@@ -26,16 +26,18 @@ export async function deleteItem(id: string){
   //revalidatePath("/tasks")
 }
 
-export async function updateItem(id: string, title: string, note: string, completed?: boolean){
+export async function updateItem(id: string, title: string, note: string, difficulty: number, options? : {completed?: boolean, positive?: number, negative?: number}){
   const supabase = createServClient()
 
   try {
-    if (completed !== undefined) {
-      const res = await supabase.from("habits").update({ title, note, completed }).eq("id", id)
+    if (options?.completed !== undefined) {
+      await supabase.from("habits").update({ title, note, difficulty, completed: options.completed }).eq("id", id)
+    } 
+    if (options?.positive !== undefined || options?.negative !== undefined) {
+      await supabase.from("habits").update({ title, note, difficulty, positive: options.positive, negative: options.negative }).eq("id", id)
     } 
     else {
-      const res = await supabase.from("habits").update({ title, note }).eq("id", id)
-      return res.data
+      await supabase.from("habits").update({ title, note, difficulty }).eq("id", id)
     }
   } 
   catch (error) {

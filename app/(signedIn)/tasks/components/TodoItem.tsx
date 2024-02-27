@@ -21,8 +21,8 @@ export default function TodoItem({ todo, onReload } : Props) {
     setShowModal(false)
   }
 
-  function onSave(title: string, note: string) {
-    updateItem(todo.id, title, note)
+  function onSave(title: string, note: string, difficulty: number) {
+    updateItem(todo.id, title, note, difficulty)
     setShowModal(false)
     onReload()
   }
@@ -35,7 +35,7 @@ export default function TodoItem({ todo, onReload } : Props) {
 
   return (
     <>
-    <Modal showModal={showModal} onSave={onSave} onDelete={deleteHandler} onClose={onClose} type={"To-Do"} title={todo.title} note={todo.note} >
+    <Modal showModal={showModal} onSave={onSave} onDelete={deleteHandler} onClose={onClose} id={todo.id} type={"To-Do"} title={todo.title} note={todo.note} >
         
     </Modal>
 

@@ -8,7 +8,7 @@ import { useState, useEffect } from "react"
 import Loading from "./Loading"
 
 export function Habits(){
-  const [habitData, setHabitData] = useState<ItemData[]>([{title: "", id: ""}])
+  const [habitData, setHabitData] = useState<ItemData[]>([{type: 0, title: "", id: "", note: "", positive: 0, negative: 0, difficulty: 1}])
   const [isLoading, setIsLoading] = useState(false)
 
   const fetchData = async () => {
