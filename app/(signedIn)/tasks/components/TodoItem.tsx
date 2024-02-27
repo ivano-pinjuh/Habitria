@@ -35,7 +35,7 @@ export default function TodoItem({ todo, onReload } : Props) {
 
   return (
     <>
-    <Modal showModal={showModal} onSave={onSave} onDelete={deleteHandler} onClose={onClose} id={todo.id} type={"To-Do"} title={todo.title} note={todo.note} >
+    <Modal showModal={showModal} onSave={onSave} onDelete={deleteHandler} onClose={onClose} id={todo.id} type={"To-Do"} title={todo.title} note={todo.note} difficulty={todo.difficulty} >
         
     </Modal>
 
@@ -68,15 +68,6 @@ export default function TodoItem({ todo, onReload } : Props) {
           </p>
         </div>
       </div>
-
-      <div className="w-[9%] flex justify-center items-center rounded-r h-full bg-prim-100">
-        <div className="cursor-pointer w-7 h-7 flex items-center text-2xl justify-center bg-black bg-opacity-25 hover:bg-opacity-40 rounded-full transition-all">
-          <p className="mb-[1px] text-text-d-100">
-            -
-          </p>
-        </div>
-      </div>
-
     </div>
     </>
   )

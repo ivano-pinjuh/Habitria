@@ -42,7 +42,7 @@ export default function HabitItem({ habit, onReload } : Props) {
     setShowModal(false)
     onReload()
   }
-
+ 
   return (
     <>
     <Modal showModal={showModal} onSave={onSave} onDelete={deleteHandler} onClose={onClose} id={habit.id} type={"Habit"} title={habit.title} note={habit.note} difficulty={habit.difficulty} >

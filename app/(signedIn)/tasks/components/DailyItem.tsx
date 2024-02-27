@@ -16,16 +16,20 @@ export default function DailyItem({ daily, onReload } : Props) {
   const [showModal, setShowModal] = useState(false)
 
 
-  function onClose() {
+  const onClose = () => {
     setShowModal(false)
   }
 
-  function onSave(title: string, note: string, difficulty: number) {
+  const onSave = (title: string, note: string, difficulty: number) => {
     updateItem(daily.id, title, note, difficulty)
     setShowModal(false)
     onReload()
   }
 
+  const onComplete = () => {
+    updateItem(daily.id, daily.title, daily.note, daily.difficulty)
+    onReload()
+  }
 
   const deleteHandler = () => {
     deleteItem(daily.id)
@@ -35,18 +39,17 @@ export default function DailyItem({ daily, onReload } : Props) {
 
   return (
     <>
-    <Modal showModal={showModal} onSave={onSave} onDelete={deleteHandler} onClose={onClose} id={daily.id} type={"Daily"} title={daily.title} note={daily.note} >
+    <Modal showModal={showModal} onSave={onSave} onDelete={deleteHandler} onClose={onClose} id={daily.id} type={"Daily"} title={daily.title} note={daily.note} difficulty={daily.difficulty} >
         
     </Modal>
     <div className="group w-full flex justify-between min-h-16 h-fit bg-bg-l-200 dark:bg-bg-d-300 rounded cursor-grab hover:shadow-xl shadow-md transition-all">
       
 
       <div className="w-[9%] flex justify-center items-center rounded-l h-full bg-prim-100">
-        <div className="cursor-pointer w-7 h-7 flex items-center text-2xl justify-center bg-black bg-opacity-25 hover:bg-opacity-40 rounded-full transition-all">
-          <p className="mb-1 text-text-d-100">
-            +
-          </p>
-        </div>
+        <input 
+          type="checkbox" 
+          name="" 
+          id="" />
       </div>
 
       <div className="flex justify-between flex-grow px-3 py-2 relative" onClick={() => setShowModal(true)} >
@@ -68,15 +71,6 @@ export default function DailyItem({ daily, onReload } : Props) {
           </p>
         </div>
       </div>
-
-      <div className="w-[9%] flex justify-center items-center rounded-r h-full bg-prim-100">
-        <div className="cursor-pointer w-7 h-7 flex items-center text-2xl justify-center bg-black bg-opacity-25 hover:bg-opacity-40 rounded-full transition-all">
-          <p className="mb-[1px] text-text-d-100">
-            -
-          </p>
-        </div>
-      </div>
-
     </div>
     </>
   )
