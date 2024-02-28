@@ -9,13 +9,14 @@ import Loading from "./Loading"
 
 export function Dailies(){
   const [dailiesData, setDailiesData] = useState<ItemData[]>([{type: 1, title: "", id: "", note: "", positive: 0, negative: 0, difficulty: 1}])
+  const [filter, setFilter] = useState<undefined | boolean>(undefined)
   const [isLoading, setIsLoading] = useState(false)
 
   const fetchData = async () => {
     try {
       setIsLoading(true)
       const data:any = await getItems(1);
-      setDailiesData(data.data);
+      setDailiesData(data.data.sort((a: any, b: any) => Date.parse(a.created_at) - Date.parse(b.created_at)));
     } 
     catch (error) {
       console.error('Error fetching data:', error);
@@ -52,7 +53,7 @@ export function Dailies(){
  
 
   return (
-    <div className='w-full md:w-[32%]'>
+    <div className='w-full lg:w-[32%]'>
       {isLoading && <div className="w-full absolute top-0 left-0 z-50 h-2 animate-pulse bg-prim-100"></div>}
 
       <div className='flex justify-between items-center'>
@@ -60,9 +61,9 @@ export function Dailies(){
           Dailies
         </h3>
         <div className='flex'>
-          <p className='cursor-pointer px-2 py-1 text-xs border-b-2 border-bg-d-100 dark:border-bg-l-100 font-semibold'>All</p>
-          <p className='cursor-pointer px-2 py-1 text-xs opacity-75 dark:opacity-50 hover:opacity-100 transition-all'>Active</p>
-          <p className='cursor-pointer px-2 py-1 text-xs opacity-75 dark:opacity-50 hover:opacity-100 transition-all'>Completed</p>
+          <p onClick={() => setFilter(undefined)} className={`${filter === undefined ? "border-b-2 border-bg-d-100 dark:border-bg-l-100 font-semibold" : "opacity-75 dark:opacity-50 hover:opacity-100"} cursor-pointer px-2 py-1 text-xs transition-all`}>All</p>
+          <p onClick={() => setFilter(false)} className={`${filter === false ? "border-b-2 border-bg-d-100 dark:border-bg-l-100 font-semibold" : "opacity-75 dark:opacity-50 hover:opacity-100"} cursor-pointer px-2 py-1 text-xs transition-all`}>Active</p>
+          <p onClick={() => setFilter(true)} className={`${filter === true ? "border-b-2 border-bg-d-100 dark:border-bg-l-100 font-semibold" : "opacity-75 dark:opacity-50 hover:opacity-100"} cursor-pointer px-2 py-1 text-xs transition-all`}>Completed</p>
         </div>
       </div>
           
@@ -87,9 +88,19 @@ export function Dailies(){
             
 
         <div className='w-full flex flex-col gap-2 rounded flex-grow'>
-          {(dailiesData[0]?.title === "") ? (<Loading />) : (dailiesData.map(daily => {
+          {(dailiesData[0]?.title === "") ? (<Loading />) : (dailiesData.filter(daily => !daily.completed !== filter).map(daily => {
             return <DailyItem daily={daily} onReload={handleReload} key={daily.id} />
           }))}
+
+          {(!(dailiesData[0]?.title === "") && dailiesData.length < 5) && 
+            <div className="w-[60%] m-auto">
+              <p className="font-semibold text text-center">
+                These are your Dailies
+              </p>
+              <p className="opacity-70 text-xs text-center">
+                Dailies repeat on a regular basis. Choose the schedule that works best for you! 
+              </p>
+            </div>}
         </div>
       </div>
     </div>

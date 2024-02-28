@@ -9,13 +9,14 @@ import Loading from "./Loading"
 
 export function Habits(){
   const [habitData, setHabitData] = useState<ItemData[]>([{type: 0, title: "", id: "", note: "", positive: 0, negative: 0, difficulty: 1}])
+  const [filter, setFilter] = useState<undefined | number>(undefined)
   const [isLoading, setIsLoading] = useState(false)
 
   const fetchData = async () => {
     try {
       setIsLoading(true)
       const data:any = await getItems(0);
-      setHabitData(data.data);
+      setHabitData(data.data.sort((a: any, b: any) => Date.parse(a.created_at) - Date.parse(b.created_at)))
     } 
     catch (error) {
       console.error('Error fetching data:', error);
@@ -52,7 +53,7 @@ export function Habits(){
  
 
   return (
-    <div className='w-full md:w-[32%]'>
+    <div className='w-full lg:w-[32%]'>
       {isLoading && <div className="w-full absolute top-0 left-0 z-50 h-2 animate-pulse bg-prim-100"></div>}
 
       <div className='flex justify-between items-center'>
@@ -60,9 +61,9 @@ export function Habits(){
           Habits
         </h3>
         <div className='flex'>
-          <p className='cursor-pointer px-2 py-1 text-xs border-b-2 border-bg-d-100 dark:border-bg-l-100 font-semibold'>All</p>
-          <p className='cursor-pointer px-2 py-1 text-xs opacity-75 dark:opacity-50 hover:opacity-100 transition-all'>Weak</p>
-          <p className='cursor-pointer px-2 py-1 text-xs opacity-75 dark:opacity-50 hover:opacity-100 transition-all'>Strong</p>
+        <p onClick={() => setFilter(undefined)} className={`${filter === undefined ? "border-b-2 border-bg-d-100 dark:border-bg-l-100 font-semibold" : "opacity-75 dark:opacity-50 hover:opacity-100"} cursor-pointer px-2 py-1 text-xs transition-all`}>All</p>
+          <p onClick={() => setFilter(1)} className={`${filter === 1 ? "border-b-2 border-bg-d-100 dark:border-bg-l-100 font-semibold" : "opacity-75 dark:opacity-50 hover:opacity-100"} cursor-pointer px-2 py-1 text-xs transition-all`}>Easier</p>
+          <p onClick={() => setFilter(3)} className={`${filter === 3 ? "border-b-2 border-bg-d-100 dark:border-bg-l-100 font-semibold" : "opacity-75 dark:opacity-50 hover:opacity-100"} cursor-pointer px-2 py-1 text-xs transition-all`}>Harder</p>
         </div>
       </div>
           
@@ -87,9 +88,25 @@ export function Habits(){
             
 
         <div className='w-full flex flex-col gap-2 rounded flex-grow'>
-          {(habitData[0]?.title === "") ? (<Loading />) : (habitData.map(habit => {
-            return <HabitItem habit={habit} onReload={handleReload} key={habit.id} />
+          {(habitData[0]?.title === "") ? (<Loading />) : (habitData.filter(habit => {
+              if (filter === undefined) return true;
+              else if (filter === 1) {
+                if (habit.difficulty === 1 || habit.difficulty === 2) return true}
+              else if (filter === 3) {
+                  if (habit.difficulty === 3 || habit.difficulty === 4) return true
+              }}).map(habit => {
+              return <HabitItem habit={habit} onReload={handleReload} key={habit.id} />
           }))}
+
+          {(!(habitData[0]?.title === "") && habitData.length < 5) && 
+            <div className="w-[60%] m-auto">
+              <p className="font-semibold text text-center">
+                These are your Habits
+              </p>
+              <p className="opacity-70 text-xs text-center">
+                Habits don't have a rigid schedule. You can check them off multiple times per day.
+              </p>
+            </div>}
         </div>
       </div>
     </div>

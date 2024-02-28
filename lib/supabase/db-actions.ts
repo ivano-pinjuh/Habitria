@@ -30,10 +30,13 @@ export async function updateItem(id: string, title: string, note: string, diffic
   const supabase = createServClient()
 
   try {
-    if (options?.completed !== undefined) {
+    if (options?.completed === true && options?.positive !== undefined ) {
+      await supabase.from("habits").update({ title, note, difficulty, completed: options.completed, positive: options.positive }).eq("id", id)
+    } 
+    else if (options?.completed !== undefined) {
       await supabase.from("habits").update({ title, note, difficulty, completed: options.completed }).eq("id", id)
     } 
-    if (options?.positive !== undefined || options?.negative !== undefined) {
+    else if (options?.positive !== undefined || options?.negative !== undefined) {
       await supabase.from("habits").update({ title, note, difficulty, positive: options.positive, negative: options.negative }).eq("id", id)
     } 
     else {

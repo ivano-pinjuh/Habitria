@@ -15,7 +15,6 @@ import { useState } from "react"
 export default function DailyItem({ daily, onReload } : Props) {
   const [showModal, setShowModal] = useState(false)
 
-
   const onClose = () => {
     setShowModal(false)
   }
@@ -27,7 +26,7 @@ export default function DailyItem({ daily, onReload } : Props) {
   }
 
   const onComplete = () => {
-    updateItem(daily.id, daily.title, daily.note, daily.difficulty)
+    updateItem(daily.id, daily.title, daily.note, daily.difficulty, { completed: !daily.completed, positive: daily.positive + 1 })
     onReload()
   }
 
@@ -47,7 +46,7 @@ export default function DailyItem({ daily, onReload } : Props) {
 
       <div className="w-[9%] flex justify-center items-center rounded-l h-full bg-prim-100">
         <div className="relative flex w-7 h-7 items-center justify-center gap-2.5 bg-prim-100">
-          <input className="peer transition-all cursor-pointer relative h-7 w-7 shrink-0 appearance-none rounded-sm border-2 border-bg-l-300 dark:border-bg-d-300 after:absolute after:left-0 after:top-0 after:h-full after:w-full after:bg-[length:40px] 
+          <input onChange={onComplete} checked={daily.completed} className="peer transition-all cursor-pointer relative h-7 w-7 shrink-0 appearance-none rounded-sm border-2 border-bg-l-300 dark:border-bg-d-300 after:absolute after:left-0 after:top-0 after:h-full after:w-full after:bg-[length:40px] 
             after:bg-center after:bg-no-repeat after:content-[''] checked:bg-bg-l-200 dark:checked:bg-bg-d-200 hover:ring-2 hover:ring-gray-300 dark:hover:ring-bg-d-300 focus:outline-none"
             type="checkbox" 
             id="checkbox1"  />
