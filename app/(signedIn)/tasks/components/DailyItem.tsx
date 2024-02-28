@@ -46,10 +46,13 @@ export default function DailyItem({ daily, onReload } : Props) {
       
 
       <div className="w-[9%] flex justify-center items-center rounded-l h-full bg-prim-100">
-        <input 
-          type="checkbox" 
-          name="" 
-          id="" />
+        <div className="relative flex w-7 h-7 items-center justify-center gap-2.5 bg-prim-100">
+          <input className="peer transition-all cursor-pointer relative h-7 w-7 shrink-0 appearance-none rounded-sm border-2 border-bg-l-300 dark:border-bg-d-300 after:absolute after:left-0 after:top-0 after:h-full after:w-full after:bg-[length:40px] 
+            after:bg-center after:bg-no-repeat after:content-[''] checked:bg-bg-l-200 dark:checked:bg-bg-d-200 hover:ring-2 hover:ring-gray-300 dark:hover:ring-bg-d-300 focus:outline-none"
+            type="checkbox" 
+            id="checkbox1"  />
+          <svg className="pointer-events-none absolute h-7" width="64px" height="64px" viewBox="0 0 25.00 25.00" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#FF4081" transform="rotate(0)"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#FF4081CCCCCC" stroke-width="0.15"></g><g id="SVGRepo_iconCarrier"> <path d="M5.5 11.5L10.5 16.5L19.5 7.60001" stroke="#FF4081" stroke-width="2.5"></path> </g></svg>
+        </div>
       </div>
 
       <div className="flex justify-between flex-grow px-3 py-2 relative" onClick={() => setShowModal(true)} >

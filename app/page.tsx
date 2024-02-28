@@ -31,7 +31,7 @@ export default async function Home() {
             priority/>
 
           <h3 className="w-full text-center text-3xl font-semibold">
-            Motivate yourself to achieve your goals.
+            <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-prim-100 via-30% via-accent-l-100 to-85% to-prim-100">Motivate yourself</span> to achieve your goals.
           </h3>
         </div>
         <SignUpForm />
@@ -40,7 +40,7 @@ export default async function Home() {
 
 
       <div className="w-full py-36 px-[15vw] shadow-2xl bg-gradient-to-tl from-bg-l-200 dark:from-bg-d-100 from-15% via-bg-l-200 dark:via-bg-d-200 via-85% to-bg-l-100 dark:to-bg-d-300">
-        <h2 className="w-full text-center text-5xl font-semibold">
+        <h2 className="w-fit m-auto text-5xl font-semibold">
           Track Your Habits
         </h2>
 
