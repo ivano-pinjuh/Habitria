@@ -35,38 +35,36 @@ export default async function AccountPage() {
       
 
 
-      <div className='w-full px-[25vw]'>
+      <div className='w-full px-[25vw] pt-12'>
 
         <h3 className='text-2xl font-semibold'>
           General Settings
         </h3>
 
-        <table className='w-full bg-pink-400'>
-          <tr className=''>
-            <td className='w-[20%] bg-purple-600'>Username</td>
-            <td></td>
-            <td className='w-[20%] bg-blue-500'></td>
+        <table className='w-full bg-bg-l-200 dark:bg-bg-d-200 mt-6 shadow-xl'>
+          <tr className='h-10 border-y border-bg-d-300 dark:border-bg-l-200'>
+            <td className='w-[25%] pl-2 font-semibold'>Username</td>
+            <td className='text-sm'>{data.user.user_metadata.name}</td>
+            <td className='w-fit text-end pr-3 text-purple-600 font-light'>Edit</td>
           </tr>
-          <tr>
-            <td>Email</td>
+          <tr className='h-10 border-y border-bg-d-300 dark:border-bg-l-200'>
+            <td className='pl-2 font-semibold'>Email</td>
+            <td className='text-sm'>{data.user.email}</td>
+            <td className='text-end pr-3 text-purple-600 font-light'>Edit</td>
+          </tr>
+          <tr className='h-10 border-y border-bg-d-300 dark:border-bg-l-200'>
+            <td className='pl-2 font-semibold'>Password</td>
             <td></td>
             <td></td>
           </tr>
-          <tr>
-            <td>Password</td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>Delete Account</td>
+          <tr className='h-10 border-y border-bg-d-300 dark:border-bg-l-200'>
+            <td className='pl-2 font-semibold'>Delete Account</td>
             <td></td>
             <td></td>
           </tr>
         </table>
-        
 
-        <p className='mt-20'>Hello {data.user.email}</p>
-        <p>Hello {data.user.user_metadata.name}</p>
+        
       </div>
       
     </div>
