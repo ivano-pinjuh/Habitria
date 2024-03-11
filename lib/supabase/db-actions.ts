@@ -3,6 +3,10 @@
 import { revalidatePath } from "next/cache"
 import { createServClient } from "./server"
 
+
+
+// These are for /tasks page
+
 export async function createItem(type: number, title: string){
   const supabase = createServClient()
 
@@ -41,6 +45,57 @@ export async function updateItem(id: string, title: string, note: string, diffic
     } 
     else {
       await supabase.from("habits").update({ title, note, difficulty }).eq("id", id)
+    }
+  } 
+  catch (error) {
+    console.error('Error updating item:', error)
+  }
+
+  //revalidatePath("/tasks")
+}
+
+
+
+// These are for /notes page
+
+export async function createNote(title: string, note?: string){
+  const supabase = createServClient()
+
+  const result = await supabase
+        .from("notes")
+        .insert({ title }).single()
+
+  //return JSON.stringify(result)
+}
+
+export async function getNotes(){
+  const supabase = createServClient()
+
+  return await supabase.from("notes").select("*")
+}
+
+export async function deleteNote(id: string){
+  const supabase = createServClient()
+
+  await supabase.from("notes").delete().eq("id", id)
+  //revalidatePath("/tasks")
+}
+
+export async function updateNote(id: string, options? : {title?: string, note?: string, pinned?: boolean, archived?: boolean, background?: number}){
+  const supabase = createServClient()
+
+  try {
+    if (options?.title !== undefined || options?.note !== undefined ) {
+      await supabase.from("notes").update({ title: options.title, note: options.note }).eq("id", id)
+    } 
+    else if (options?.pinned !== undefined) {
+      await supabase.from("notes").update({ pinned: options.pinned }).eq("id", id)
+    } 
+    else if (options?.archived !== undefined) {
+      await supabase.from("notes").update({ archived: options.archived }).eq("id", id)
+    }
+    else if (options?.background !== undefined) {
+      await supabase.from("notes").update({ background: options.background }).eq("id", id)
     }
   } 
   catch (error) {
