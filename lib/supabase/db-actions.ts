@@ -58,12 +58,12 @@ export async function updateItem(id: string, title: string, note: string, diffic
 
 // These are for /notes page
 
-export async function createNote(title: string, note?: string){
+export async function createNote(title: undefined | string, note: undefined | string){
   const supabase = createServClient()
 
   const result = await supabase
         .from("notes")
-        .insert({ title }).single()
+        .insert({ title, note }).single()
 
   //return JSON.stringify(result)
 }

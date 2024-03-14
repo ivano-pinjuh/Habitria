@@ -14,12 +14,13 @@ type ItemData = {
 }
 
 type Note = {
-  id?: string,
+  id: string,
   created_at: string,
   created_by?: string,
   title?: string,
-  note?: string,
+  note: string,
   archived?: boolean,
   pinned?: boolean,
   reminder?: string
+  background: number
 }

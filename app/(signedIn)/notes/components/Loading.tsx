@@ -1,13 +1,14 @@
 export default function Loading(){
   return (
     <>
-      <div className="animate-pulse w-full flex justify-between min-h-16 h-fit bg-bg-l-200 dark:bg-bg-d-300 rounded cursor-grab hover:shadow-xl shadow-md transition-all">
-      </div>
-      <div className="animate-pulse w-full flex justify-between min-h-16 h-fit bg-bg-l-200 dark:bg-bg-d-300 rounded cursor-grab hover:shadow-xl shadow-md transition-all">
-      
-      </div>
-      <div className="animate-pulse w-full flex justify-between min-h-16 h-fit bg-bg-l-200 dark:bg-bg-d-300 rounded cursor-grab hover:shadow-xl shadow-md transition-all">
-        
+      <div className="w-full flex justify-stretch gap-7 gap-y-8 flex-wrap">
+        <div className="animate-pulse w-[23%] h-40 bg-bg-l-200 dark:bg-bg-d-200"></div>
+        <div className="animate-pulse w-[23%] h-40 bg-bg-l-200 dark:bg-bg-d-200"></div>
+        <div className="animate-pulse w-[23%] h-40 bg-bg-l-200 dark:bg-bg-d-200"></div>
+        <div className="animate-pulse w-[23%] h-40 bg-bg-l-200 dark:bg-bg-d-200"></div>
+        <div className="animate-pulse w-[23%] h-40 bg-bg-l-200 dark:bg-bg-d-200"></div>
+        <div className="animate-pulse w-[23%] h-40 bg-bg-l-200 dark:bg-bg-d-200"></div>
+        <div className="animate-pulse w-[23%] h-40 bg-bg-l-200 dark:bg-bg-d-200"></div>
       </div>
     </>
   )

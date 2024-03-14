@@ -6,7 +6,7 @@ import NoteItem from "./NoteItem"
 import Loading from "./Loading"
 
 export default function Notes() {
-  const [notesData, setNotesData] = useState<Note[]>([{ created_at: "" }])
+  const [notesData, setNotesData] = useState<Note[]>([{ created_at: "", note: "", background: 0, id: "" }])
   const [filter, setFilter] = useState<undefined | number>(undefined)
   const [isLoading, setIsLoading] = useState(false)
 
@@ -27,15 +27,26 @@ export default function Notes() {
     }
   }
 
-  const handleTitleKeyPress = (event: any) => {
-    if (event.key === 'Enter' && event.target.value.length > 0) {
-      createNote(event.target.value)
-      event.target.value = ""
-      fetchData()
+
+
+  const handleKeyPress = (event: any) => {
+    if (event.key === 'Enter' && !event.shiftKey){
+      event.preventDefault()
+      let isValid = /[a-zA-Z]/.test(titleRef.current?.value as string) || /[a-zA-Z]/.test(noteRef.current?.value as string)
+
+      if (isValid) {
+        event.preventDefault()
+        createNote(titleRef.current?.value, noteRef.current?.value)
+        if(titleRef.current){
+          titleRef.current.value = ""
+        }
+        if(noteRef.current){
+          noteRef.current.value = ""
+        }
+        fetchData()
+      }
     }
   }
-
-
 
 
   const handleReload = () => {
@@ -51,17 +62,20 @@ export default function Notes() {
       {isLoading && <div className="w-full absolute top-0 left-0 z-50 h-2 animate-pulse bg-prim-100"></div>}
       <div className='px-10 mt-6 flex flex-col gap-2 w-full lg:w-[40%] m-auto group'>
         <input className='placeholder:font-semibold w-full flex-wrap duration-300 bg-bg-l-100 dark:bg-bg-d-300 h-12 min-h-fit px-4 rounded outline-none shadow-md transition-all' 
+          ref={titleRef}
           type="text" 
           placeholder='Add a Note'
           name="add-note" 
           id="add-note"
           autoComplete="off" 
-          onKeyDown={handleTitleKeyPress}/>
+          onKeyDown={handleKeyPress}/>
 
         <textarea className='w-full break-all h-auto duration-300 bg-bg-l-100 dark:bg-bg-d-300 min-h-12 px-4 pt-2 rounded outline-none shadow-md transition-all'
+          ref={noteRef}
           placeholder='Note text...'
           name="note-desc" 
-          id="note-desc" >
+          id="note-desc" 
+          onKeyDown={handleKeyPress}>
           
         </textarea>
       </div>
