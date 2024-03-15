@@ -17,7 +17,12 @@ export default function Notes() {
     try {
       setIsLoading(true)
       const data:any = await getNotes();
-      setNotesData(data.data.sort((a: any, b: any) => Date.parse(a.created_at) - Date.parse(b.created_at)))
+      
+      const pinned: Note[] = data.data.filter((item: Note) => item.pinned).sort((a: any, b: any) => Date.parse(a.created_at) - Date.parse(b.created_at))
+      const notPinned: Note[] = data.data.filter((item: Note) => !item.pinned).sort((a: any, b: any) => Date.parse(a.created_at) - Date.parse(b.created_at))
+
+      // const tempData = pinned.concat(notPinned).sort((a: any, b: any) => Date.parse(a.created_at) - Date.parse(b.created_at))
+      setNotesData(pinned.concat(notPinned))
     } 
     catch (error) {
       console.error('Error fetching data:', error);
@@ -80,10 +85,44 @@ export default function Notes() {
         </textarea>
       </div>
     
-      <div className='px-32 mt-10 flex justify-stretch gap-7 gap-y-8 flex-wrap'>
+      {/*<div className='px-32 mt-10 flex justify-stretch gap-7 gap-y-8 flex-wrap'>
         {(notesData[0]?.created_at === "") ? (<Loading />) : (notesData.map(note => {
           return <NoteItem note={note} onReload={handleReload} key={note.id} />
         }))}
+      </div>*/}
+
+      <div className='px-32 mt-10 flex justify-stretch gap-7 mb-20'>
+        <div className="flex flex-col gap-6 w-[23%]">
+          {(notesData[0]?.created_at === "") ? (<Loading />) : (notesData.map((note, index) => {
+            if (index % 4 === 0){
+              return <NoteItem note={note} onReload={handleReload} key={note.id} />
+            }
+          }))}
+        </div>
+
+        <div className="flex flex-col gap-6 w-[23%]">
+          {(notesData[0]?.created_at === "") ? (<Loading />) : (notesData.map((note, index) => {
+            if (index % 4 === 1){
+              return <NoteItem note={note} onReload={handleReload} key={note.id} />
+            }
+          }))}
+        </div>
+
+        <div className="flex flex-col gap-6 w-[23%]">
+          {(notesData[0]?.created_at === "") ? (<Loading />) : (notesData.map((note, index) => {
+            if (index % 4 === 2){
+              return <NoteItem note={note} onReload={handleReload} key={note.id} />
+            }
+          }))}
+        </div>
+
+        <div className="flex flex-col gap-6 w-[23%]">
+          {(notesData[0]?.created_at === "") ? (<Loading />) : (notesData.map((note, index) => {
+            if (index % 4 === 3){
+              return <NoteItem note={note} onReload={handleReload} key={note.id} />
+            }
+          }))}
+        </div>
       </div>
     </>
   )

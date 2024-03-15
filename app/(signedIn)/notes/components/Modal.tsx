@@ -2,11 +2,10 @@ import { useRef } from "react"
 
 import { MdOutlineDeleteForever } from "react-icons/md"
 
-export function Modal({ showModal, onDelete, onClose, onSave, title, note, difficulty, id, type, children }: any ){
+export function Modal({ showModal, onDelete, onClose, onSave, title, note, id, type, children }: any ){
   const modalRef = useRef<null | HTMLDialogElement>(null)
   const titleRef = useRef<null | HTMLInputElement>(null)
   const noteRef = useRef<null | HTMLTextAreaElement>(null)
-  const difficultyRef = useRef<null | HTMLSelectElement>(null)
 
   if (showModal){
     modalRef.current?.showModal()
@@ -19,7 +18,7 @@ export function Modal({ showModal, onDelete, onClose, onSave, title, note, diffi
 
   const handleSave = () => {
     modalRef.current?.close()
-    onSave(titleRef.current?.value, noteRef.current?.value, difficultyRef.current?.value)
+    onSave(titleRef.current?.value, noteRef.current?.value)
   }
 
   const handleDelete = () => {
@@ -51,7 +50,7 @@ export function Modal({ showModal, onDelete, onClose, onSave, title, note, diffi
           <div className="w-full flex flex-col gap-6">
             <div>
               <label htmlFor={id} className="font-semibold text-sm pl-1" >
-                Title*
+                Title
               </label>
               <input className='w-full text-sm duration-300 bg-bg-l-100 dark:bg-bg-d-300 h-10 px-4 rounded outline-none shadow-md transition-all' 
                 ref={titleRef}
@@ -65,7 +64,7 @@ export function Modal({ showModal, onDelete, onClose, onSave, title, note, diffi
 
             <div>
               <label htmlFor={`${id}2`} className="font-semibold text-sm pl-1" >
-                Notes
+                Description
               </label>
               <textarea className='w-full text-sm duration-300 bg-bg-l-100 dark:bg-bg-d-300 h-20 px-4 py-1 rounded outline-none shadow-md transition-all' 
                 ref={noteRef}
