@@ -53,6 +53,10 @@ export default function Notes() {
     }
   }
 
+  const handleHeightChange = (event: any) => {
+    event.target.style.height = (event.target.scrollHeight) + "px"
+  }
+
 
   const handleReload = () => {
     fetchData()
@@ -75,12 +79,13 @@ export default function Notes() {
           autoComplete="off" 
           onKeyDown={handleKeyPress}/>
 
-        <textarea className='w-full break-all h-auto duration-300 bg-bg-l-100 dark:bg-bg-d-300 min-h-12 px-4 pt-2 rounded outline-none shadow-md transition-all'
+        <textarea className='w-full overflow-clip h-20 duration-300 bg-bg-l-100 dark:bg-bg-d-300 px-4 py-3 rounded outline-none shadow-md transition-all'
           ref={noteRef}
           placeholder='Note text...'
           name="note-desc" 
           id="note-desc" 
-          onKeyDown={handleKeyPress}>
+          onKeyDown={handleKeyPress}
+          onChange={handleHeightChange}>
           
         </textarea>
       </div>
