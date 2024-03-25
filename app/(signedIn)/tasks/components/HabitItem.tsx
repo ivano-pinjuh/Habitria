@@ -21,18 +21,22 @@ export default function HabitItem({ habit, onReload } : Props) {
   }
 
   const onSave = (title: string, note: string, difficulty: number) => {
+    habit.title = title
+    habit.note = note
     updateItem(habit.id, title, note, difficulty)
     setShowModal(false)
     onReload()
   }
 
   const updatePositive = () => {
-    updateItem(habit.id, habit.title, habit.note, habit.difficulty, {positive: habit.positive + 1, negative: habit.negative })
+    habit.positive += 1
+    updateItem(habit.id, habit.title, habit.note, habit.difficulty, {positive: habit.positive, negative: habit.negative })
     onReload()
   }
 
   const updateNegative = () => {
-    updateItem(habit.id, habit.title, habit.note, habit.difficulty, {positive: habit.positive, negative: habit.negative + 1 })
+    habit.negative += 1
+    updateItem(habit.id, habit.title, habit.note, habit.difficulty, {positive: habit.positive, negative: habit.negative})
     onReload()
   }
 
@@ -48,24 +52,29 @@ export default function HabitItem({ habit, onReload } : Props) {
     <Modal showModal={showModal} onSave={onSave} onDelete={deleteHandler} onClose={onClose} id={habit.id} type={"Habit"} title={habit.title} note={habit.note} difficulty={habit.difficulty} >
         
     </Modal>
-    <div className="group w-full flex justify-between min-h-16 h-fit bg-bg-l-200 dark:bg-bg-d-300 rounded cursor-grab hover:shadow-xl shadow-md transition-all">
+    <div className="group w-full flex justify-between min-h-16 bg-bg-l-200 dark:bg-bg-d-300 rounded cursor-grab hover:shadow-xl shadow-md transition-all">
       
 
-      <div className="w-[9%] flex justify-center items-center rounded-l h-full bg-prim-100">
-        <div onClick={updatePositive} className="cursor-pointer w-7 h-7 flex items-center text-2xl justify-center bg-black bg-opacity-25 hover:bg-opacity-40 rounded-full transition-all">
+      <div className="w-[9%] flex justify-center rounded-l h-full bg-prim-100">
+        <div onClick={updatePositive} className="mt-5 cursor-pointer w-7 h-7 flex items-center text-2xl justify-center bg-black bg-opacity-25 hover:bg-opacity-40 rounded-full transition-all">
           <p className="mb-1 text-text-d-100">
             +
           </p>
         </div>
       </div>
 
-      <div className="flex justify-between flex-grow px-3 py-2 relative" onClick={() => setShowModal(true)} >
+      <div className="flex justify-between w-[82%] px-3 py-2 relative" onClick={() => setShowModal(true)} >
         <div className="flex flex-col">
           <h6 className="font-semibold">
             {habit.title}
           </h6>
-          <p className="text-xs">
-            {habit.note}
+          <p className="text-xs pb-4">
+            {habit.note.split('\n').map((line, index) => (
+              <span className="break-all" key={index}>
+                {line}
+              <br />
+              </span>))
+            }
           </p>
         </div>
 
@@ -86,8 +95,8 @@ export default function HabitItem({ habit, onReload } : Props) {
         </div>
       </div>
 
-      <div className="w-[9%] flex justify-center items-center rounded-r h-full bg-prim-100">
-        <div onClick={updateNegative} className="cursor-pointer w-7 h-7 flex items-center text-2xl justify-center bg-black bg-opacity-25 hover:bg-opacity-40 rounded-full transition-all">
+      <div className="w-[9%] flex justify-center rounded-r h-full bg-prim-100">
+        <div onClick={updateNegative} className="mt-5 cursor-pointer w-7 h-7 flex items-center text-2xl justify-center bg-black bg-opacity-25 hover:bg-opacity-40 rounded-full transition-all">
           <p className="mb-[1px] text-text-d-100">
             -
           </p>

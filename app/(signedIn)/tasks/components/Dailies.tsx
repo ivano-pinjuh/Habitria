@@ -28,6 +28,7 @@ export function Dailies(){
 
   const handleKeyPress = (event: any) => {
     if (event.key === 'Enter' && event.target.value.length > 0) {
+      setDailiesData([...dailiesData, {type: 1, title: `${event.target.value}`, id: "", note: "", positive: 0, negative: 0, difficulty: 1}])
       createItem(1, event.target.value)
       event.target.value = ""
       fetchData()
@@ -35,6 +36,7 @@ export function Dailies(){
   }
   const handleBlur = (event: any) => {
     if (event.target.value.length > 0){
+      setDailiesData([...dailiesData, {type: 1, title: `${event.target.value}`, id: "", note: "", positive: 0, negative: 0, difficulty: 1}])
       createItem(1, event.target.value);
       event.target.value = "";
       fetchData();

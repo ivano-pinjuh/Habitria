@@ -28,6 +28,7 @@ export function Habits(){
 
   const handleKeyPress = (event: any) => {
     if (event.key === 'Enter' && event.target.value.length > 0) {
+      setHabitData([...habitData, {type: 0, title: `${event.target.value}`, id: "", note: "", positive: 0, negative: 0, difficulty: 1}])
       createItem(0, event.target.value)
       event.target.value = ""
       fetchData()
@@ -35,6 +36,7 @@ export function Habits(){
   }
   const handleBlur = (event: any) => {
     if (event.target.value.length > 0){
+      setHabitData([...habitData, {type: 0, title: `${event.target.value}`, id: "", note: "", positive: 0, negative: 0, difficulty: 1}])
       createItem(0, event.target.value);
       event.target.value = "";
       fetchData();
@@ -98,7 +100,7 @@ export function Habits(){
               return <HabitItem habit={habit} onReload={handleReload} key={habit.id} />
           }))}
 
-          {(!(habitData[0]?.title === "") && habitData.length < 5) && 
+          {(!(habitData[0]?.title === "") && habitData.length < 4) && 
             <div className="w-[60%] m-auto">
               <p className="font-semibold text text-center">
                 These are your Habits

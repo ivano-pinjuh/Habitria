@@ -20,13 +20,17 @@ export default function DailyItem({ daily, onReload } : Props) {
   }
 
   const onSave = (title: string, note: string, difficulty: number) => {
+    daily.title = title
+    daily.note = note
     updateItem(daily.id, title, note, difficulty)
     setShowModal(false)
     onReload()
   }
 
   const onComplete = () => {
-    updateItem(daily.id, daily.title, daily.note, daily.difficulty, { completed: !daily.completed, positive: daily.positive + 1 })
+    daily.completed = !daily.completed
+    daily.positive += 1
+    updateItem(daily.id, daily.title, daily.note, daily.difficulty, { completed: daily.completed, positive: daily.positive })
     onReload()
   }
 
@@ -44,8 +48,8 @@ export default function DailyItem({ daily, onReload } : Props) {
     <div className="group w-full flex justify-between min-h-16 h-fit bg-bg-l-200 dark:bg-bg-d-300 rounded cursor-grab hover:shadow-xl shadow-md transition-all">
       
 
-      <div className="w-[9%] flex justify-center items-center rounded-l h-full bg-prim-100">
-        <div className="relative flex w-7 h-7 items-center justify-center gap-2.5 bg-prim-100">
+      <div className="w-[9%] flex justify-center rounded-l h-full bg-prim-100">
+        <div className="relative mt-5 flex w-7 h-7 items-center justify-center gap-2.5 bg-prim-100">
           <input onChange={onComplete} checked={daily.completed} className="peer transition-all cursor-pointer relative h-7 w-7 shrink-0 appearance-none rounded-sm border-2 border-bg-l-300 dark:border-bg-d-300 after:absolute after:left-0 after:top-0 after:h-full after:w-full after:bg-[length:40px] 
             after:bg-center after:bg-no-repeat after:content-[''] checked:bg-bg-l-200 dark:checked:bg-bg-d-200 hover:ring-2 hover:ring-gray-300 dark:hover:ring-bg-d-300 focus:outline-none"
             type="checkbox" 
@@ -54,14 +58,19 @@ export default function DailyItem({ daily, onReload } : Props) {
         </div>
       </div>
 
-      <div className="flex justify-between flex-grow px-3 py-2 relative" onClick={() => setShowModal(true)} >
+      <div className="flex justify-between w-[91%] px-3 py-2 relative" onClick={() => setShowModal(true)} >
         
         <div className="flex flex-col">
           <h6 className="font-semibold">
             {daily.title}
           </h6>
-          <p className="text-xs">
-            {daily.note}
+          <p className="text-xs pb-4">
+            {daily.note.split('\n').map((line, index) => (
+              <span className="break-all" key={index}>
+                {line}
+              <br />
+              </span>))
+            }
           </p>
         </div>
         
