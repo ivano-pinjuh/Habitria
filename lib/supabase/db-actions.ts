@@ -4,6 +4,13 @@ import { revalidatePath } from "next/cache"
 import { createServClient } from "./server"
 
 
+export async function gettAllTasks(){
+  const supabase = createServClient()
+
+  return await supabase.from("habits").select("*")
+}
+
+
 
 // These are for /tasks page
 
@@ -30,7 +37,7 @@ export async function deleteItem(id: string){
   //revalidatePath("/tasks")
 }
 
-export async function updateItem(id: string, title: string, note: string, difficulty: number, options? : {completed?: boolean, positive?: number, negative?: number}){
+export async function updateItem(id: string, title: string, note: string, difficulty: number, options? : {completed?: boolean, positive?: number, target?: number}){
   const supabase = createServClient()
 
   try {
@@ -40,8 +47,8 @@ export async function updateItem(id: string, title: string, note: string, diffic
     else if (options?.completed !== undefined) {
       await supabase.from("habits").update({ title, note, difficulty, completed: options.completed }).eq("id", id)
     } 
-    else if (options?.positive !== undefined || options?.negative !== undefined) {
-      await supabase.from("habits").update({ title, note, difficulty, positive: options.positive, negative: options.negative }).eq("id", id)
+    else if (options?.positive !== undefined || options?.target !== undefined) {
+      await supabase.from("habits").update({ title, note, difficulty, positive: options.positive, target: options.target }).eq("id", id)
     } 
     else {
       await supabase.from("habits").update({ title, note, difficulty }).eq("id", id)

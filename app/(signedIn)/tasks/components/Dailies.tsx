@@ -7,8 +7,8 @@ import { useState, useEffect } from "react"
 
 import Loading from "./Loading"
 
-export function Dailies(){
-  const [dailiesData, setDailiesData] = useState<ItemData[]>([{type: 1, title: "", id: "", note: "", positive: 0, negative: 0, difficulty: 1}])
+export default function Dailies(){
+  const [dailiesData, setDailiesData] = useState<ItemData[]>([{type: 1, title: "", id: "", note: "", positive: 0, target: 1, difficulty: 1}])
   const [filter, setFilter] = useState<undefined | boolean>(undefined)
   const [isLoading, setIsLoading] = useState(false)
 
@@ -28,7 +28,7 @@ export function Dailies(){
 
   const handleKeyPress = (event: any) => {
     if (event.key === 'Enter' && event.target.value.length > 0) {
-      setDailiesData([...dailiesData, {type: 1, title: `${event.target.value}`, id: "", note: "", positive: 0, negative: 0, difficulty: 1}])
+      setDailiesData([...dailiesData, {type: 1, title: `${event.target.value}`, id: "", note: "", positive: 0, target: 0, difficulty: 1}])
       createItem(1, event.target.value)
       event.target.value = ""
       fetchData()
@@ -36,7 +36,7 @@ export function Dailies(){
   }
   const handleBlur = (event: any) => {
     if (event.target.value.length > 0){
-      setDailiesData([...dailiesData, {type: 1, title: `${event.target.value}`, id: "", note: "", positive: 0, negative: 0, difficulty: 1}])
+      setDailiesData([...dailiesData, {type: 1, title: `${event.target.value}`, id: "", note: "", positive: 0, target: 0, difficulty: 1}])
       createItem(1, event.target.value);
       event.target.value = "";
       fetchData();
@@ -70,7 +70,7 @@ export function Dailies(){
       </div>
           
 
-      <div className='w-full flex flex-col gap-3 bg-bg-l-300 dark:bg-bg-d-200 h-[500px] py-2 px-2 rounded-md'>
+      <div className='w-full flex flex-col gap-3 bg-bg-l-300 dark:bg-bg-d-200 min-h-[600px] py-2 px-2 rounded-md'>
         <div className='group transition-all relative'>
           <input className='placeholder:font-semibold w-full duration-300 focus:mb-14 bg-bg-l-100 dark:bg-bg-d-300 h-12 px-4 rounded outline-none shadow-md transition-all' 
             type="text" 
@@ -95,7 +95,7 @@ export function Dailies(){
           }))}
 
           {(!(dailiesData[0]?.title === "") && dailiesData.length < 5) && 
-            <div className="w-[60%] m-auto">
+            <div className="w-[60%] h-40 flex flex-col justify-center m-auto">
               <p className="font-semibold text text-center">
                 These are your Dailies
               </p>

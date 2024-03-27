@@ -7,7 +7,7 @@ type ItemData = {
   tags?: string[],
   note: string,
   title: string
-  negative: number,
+  target: number,
   positive: number,
   completed?: boolean,
   repeats?: number

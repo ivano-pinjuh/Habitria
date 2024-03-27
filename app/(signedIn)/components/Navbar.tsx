@@ -36,8 +36,8 @@ export default function Navbar() {
     
         <Link className={`${pathname == "/tasks" && "border-b-4"} hidden md:inline-block border-bg-d-100 dark:border-bg-l-100 hover:bg-bg-l-200 dark:hover:bg-bg-d-200 h-16 pt-6 px-4`} href="/tasks">Tasks</Link>
         <Link className={`${pathname == "/notes" && "border-b-4"} hidden md:inline-block border-bg-d-100 dark:border-bg-l-100 hover:bg-bg-l-200 dark:hover:bg-bg-d-200 h-16 pt-6 px-4`} href="/notes">Notes</Link>
+        <Link className={`${pathname == "/stats" && "border-b-4"} hidden md:inline-block border-bg-d-100 dark:border-bg-l-100 hover:bg-bg-l-200 dark:hover:bg-bg-d-200 h-16 pt-6 px-4`} href="/stats">Stats</Link>
         <Link className={`${pathname == "/challenges" && "border-b-4"} hidden md:inline-block border-bg-d-100 dark:border-bg-l-100 hover:bg-bg-l-200 dark:hover:bg-bg-d-200 h-16 pt-6 px-4`} href="/challenges">Challenges</Link>
-        <Link className={`${pathname == "/history" && "border-b-4"} hidden md:inline-block border-bg-d-100 dark:border-bg-l-100 hover:bg-bg-l-200 dark:hover:bg-bg-d-200 h-16 pt-6 px-4`} href="/history">History</Link>
         <Link className={`${pathname == "/help" && "border-b-4"} hidden md:inline-block border-bg-d-100 dark:border-bg-l-100 hover:bg-bg-l-200 dark:hover:bg-bg-d-200 h-16 pt-6 px-4`} href="/help">Help</Link>
 
       </div>

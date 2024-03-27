@@ -1,9 +1,9 @@
 import { redirect } from 'next/navigation'
 import { createServClient } from '@/lib/supabase/server'
 
-import { Habits } from './components/Habits'
-import { Dailies } from './components/Dailies'
-import { Todos } from './components/Todos'
+import Habits from './components/Habits'
+import Dailies from './components/Dailies'
+import Todos from './components/Todos'
 
 
 export default async function TasksPage() {

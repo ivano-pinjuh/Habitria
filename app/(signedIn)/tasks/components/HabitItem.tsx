@@ -30,13 +30,13 @@ export default function HabitItem({ habit, onReload } : Props) {
 
   const updatePositive = () => {
     habit.positive += 1
-    updateItem(habit.id, habit.title, habit.note, habit.difficulty, {positive: habit.positive, negative: habit.negative })
+    updateItem(habit.id, habit.title, habit.note, habit.difficulty, {positive: habit.positive, target: habit.target })
     onReload()
   }
 
   const updateNegative = () => {
-    habit.negative += 1
-    updateItem(habit.id, habit.title, habit.note, habit.difficulty, {positive: habit.positive, negative: habit.negative})
+    habit.target += 1
+    updateItem(habit.id, habit.title, habit.note, habit.difficulty, {positive: habit.positive, target: habit.target})
     onReload()
   }
 
@@ -52,10 +52,10 @@ export default function HabitItem({ habit, onReload } : Props) {
     <Modal showModal={showModal} onSave={onSave} onDelete={deleteHandler} onClose={onClose} id={habit.id} type={"Habit"} title={habit.title} note={habit.note} difficulty={habit.difficulty} >
         
     </Modal>
-    <div className="group w-full flex justify-between min-h-16 bg-bg-l-200 dark:bg-bg-d-300 rounded cursor-grab hover:shadow-xl shadow-md transition-all">
+    <div className="group w-full flex justify-between min-h-16 h-fit bg-bg-l-200 dark:bg-bg-d-300 rounded cursor-grab hover:shadow-xl shadow-md transition-all">
       
 
-      <div className="w-[9%] flex justify-center rounded-l h-full bg-prim-100">
+      <div className="w-[9%] flex justify-center rounded-l bg-prim-100">
         <div onClick={updatePositive} className="mt-5 cursor-pointer w-7 h-7 flex items-center text-2xl justify-center bg-black bg-opacity-25 hover:bg-opacity-40 rounded-full transition-all">
           <p className="mb-1 text-text-d-100">
             +
@@ -83,7 +83,7 @@ export default function HabitItem({ habit, onReload } : Props) {
             {`${habit.positive > 0 ? "+" : ""}${habit.positive} |`}
           </p>
           <p>
-          {`${habit.negative > 0 ? "-" : ""}${habit.negative}`}
+          {`${habit.target > 0 ? "-" : ""}${habit.target}`}
           </p>
         </div>
 
@@ -95,7 +95,7 @@ export default function HabitItem({ habit, onReload } : Props) {
         </div>
       </div>
 
-      <div className="w-[9%] flex justify-center rounded-r h-full bg-prim-100">
+      <div className="w-[9%] flex justify-center rounded-r bg-prim-100">
         <div onClick={updateNegative} className="mt-5 cursor-pointer w-7 h-7 flex items-center text-2xl justify-center bg-black bg-opacity-25 hover:bg-opacity-40 rounded-full transition-all">
           <p className="mb-[1px] text-text-d-100">
             -
