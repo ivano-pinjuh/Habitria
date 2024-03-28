@@ -10,11 +10,11 @@ import { SlOptionsVertical } from "react-icons/sl"
 
 import { Modal } from "./Modal"
 
-import { useState } from "react"
+import { useRef, useState } from "react"
 
 export default function HabitItem({ habit, onReload } : Props) {
   const [showModal, setShowModal] = useState(false)
-
+  const targetRef = useRef<null | HTMLInputElement>(null)
 
   const onClose = () => {
     setShowModal(false)
@@ -23,7 +23,7 @@ export default function HabitItem({ habit, onReload } : Props) {
   const onSave = (title: string, note: string, difficulty: number) => {
     habit.title = title
     habit.note = note
-    updateItem(habit.id, title, note, difficulty)
+    updateItem(habit.id, title, note, difficulty, {target: Number(targetRef.current?.value)})
     setShowModal(false)
     onReload()
   }
@@ -35,7 +35,7 @@ export default function HabitItem({ habit, onReload } : Props) {
   }
 
   const updateNegative = () => {
-    habit.target += 1
+    habit.positive -= 1
     updateItem(habit.id, habit.title, habit.note, habit.difficulty, {positive: habit.positive, target: habit.target})
     onReload()
   }
@@ -50,7 +50,20 @@ export default function HabitItem({ habit, onReload } : Props) {
   return (
     <>
     <Modal showModal={showModal} onSave={onSave} onDelete={deleteHandler} onClose={onClose} id={habit.id} type={"Habit"} title={habit.title} note={habit.note} difficulty={habit.difficulty} >
-        
+      <div className="mt-3 mb-2">
+        <label htmlFor={habit.id} className="font-semibold text-sm pl-1" >
+          Daily Target
+        </label>
+        <input className='w-full text-sm duration-300 bg-bg-l-100 dark:bg-bg-d-300 h-10 px-4 rounded outline-none shadow-md transition-all' 
+          ref={targetRef}
+          type="number" 
+          placeholder='Your daily target...'
+          name="add-title" 
+          id={habit.id}
+          min={1}
+          defaultValue={habit.target}
+          autoComplete="off" />
+        </div>
     </Modal>
     <div className="group w-full flex justify-between min-h-16 h-fit bg-bg-l-200 dark:bg-bg-d-300 rounded cursor-grab hover:shadow-xl shadow-md transition-all">
       
@@ -80,10 +93,10 @@ export default function HabitItem({ habit, onReload } : Props) {
 
         <div className="flex gap-1 absolute text-xs right-2 bottom-2">
           <p>
-            {`${habit.positive > 0 ? "+" : ""}${habit.positive} |`}
+            {`${habit.positive} /`}
           </p>
           <p>
-          {`${habit.target > 0 ? "-" : ""}${habit.target}`}
+            {habit.target}
           </p>
         </div>
 
