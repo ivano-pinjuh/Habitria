@@ -28,7 +28,7 @@ export default function Navbar() {
   }
   
   return (
-    <nav className="flex items-center w-full justify-between h-16 dark:text-text-d-100 text-text-l-100 px-10 shadow-xl dark:bg-bg-d-100 bg-bg-l-100 z-50 relative">
+    <nav className="flex md:relative sticky top-0 items-center w-full justify-between h-16 dark:text-text-d-100 text-text-l-100 px-10 shadow-xl dark:bg-bg-d-100 bg-bg-l-100 z-50">
       <div className="flex h-full items-center">
         <h2 className="text-2xl font-bold mr-8">
           <Link href="/tasks">Habitria</Link>

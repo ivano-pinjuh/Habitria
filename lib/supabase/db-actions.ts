@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache"
 import { createServClient } from "./server"
 
 
-export async function gettAllTasks(){
+export async function getAllTasks(){
   const supabase = createServClient()
 
   return await supabase.from("habits").select("*")
@@ -110,4 +110,26 @@ export async function updateNote(id: string, options? : {title?: string, note?: 
   }
 
   //revalidatePath("/tasks")
+}
+
+
+
+
+// General functions, like daily reset..
+
+export async function fetchOneItem(){
+  const supabase = createServClient()
+
+  return await supabase.from("habits").select("*").limit(1)
+}
+
+export async function dailyReset(){
+  const data = await getAllTasks()
+
+  const uncompletedHabits = data.data?.filter((item: ItemData) => item.type === 0).filter((habit: ItemData) => !(habit.positive === habit.target))
+  const uncompletedDailies = data.data?.filter((item: ItemData) => item.type === 1).filter((item: ItemData) => !item.completed)
+  const uncompletedTodos = data.data?.filter((item: ItemData) => item.type === 2).filter((item: ItemData) => !item.completed)
+
+  
+  return {habits: uncompletedHabits, dailies: uncompletedDailies, todos: uncompletedTodos}
 }

@@ -1,7 +1,7 @@
 "use client"
 
 
-import { gettAllTasks } from "@/lib/supabase/db-actions"
+import { getAllTasks } from "@/lib/supabase/db-actions"
 import { useState, useEffect } from "react"
 
 export default function Stats(){
@@ -12,7 +12,7 @@ export default function Stats(){
     try {
       setIsLoading(true)
 
-      const data:any = await gettAllTasks()
+      const data:any = await getAllTasks()
       const habits = data.data.filter((item: ItemData) => item.type === 0)
       const dailies = data.data.filter((item: ItemData) => item.type === 1)
       const todos = data.data.filter((item: ItemData) => item.type === 2)

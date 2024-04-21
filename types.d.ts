@@ -11,6 +11,7 @@ type ItemData = {
   positive: number,
   completed?: boolean,
   repeats?: number
+  last_reset?: string
 }
 
 type Note = {
