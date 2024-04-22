@@ -72,7 +72,6 @@ export async function createNote(title: undefined | string, note: undefined | st
         .from("notes")
         .insert({ title, note }).single()
 
-  //return JSON.stringify(result)
 }
 
 export async function getNotes(){
@@ -124,12 +123,26 @@ export async function fetchOneItem(){
 }
 
 export async function dailyReset(){
-  const data = await getAllTasks()
+  const supabase = createServClient()
+
+  const data = await supabase.from("habits").select("*")
 
   const uncompletedHabits = data.data?.filter((item: ItemData) => item.type === 0).filter((habit: ItemData) => !(habit.positive === habit.target))
   const uncompletedDailies = data.data?.filter((item: ItemData) => item.type === 1).filter((item: ItemData) => !item.completed)
-  const uncompletedTodos = data.data?.filter((item: ItemData) => item.type === 2).filter((item: ItemData) => !item.completed)
 
-  
-  return {habits: uncompletedHabits, dailies: uncompletedDailies, todos: uncompletedTodos}
+
+  const habits = data.data?.filter((item: ItemData) => item.type === 0).forEach(habit => {if(habit.positive === habit.target){
+              const [x, y] = habit.completion_rate.split('/').map(Number)
+              habit.completion_rate = `${x + 1}/${y + 1}`}
+              else {
+                const [x, y] = habit.completion_rate.split('/').map(Number)
+                habit.completion_rate = `${x}/${y + 1}`}
+  })
+
+  console.log(habits)
+
+
+
+  //await supabase.from("habits").update({ title: "yes" }).eq("id", "id")
+  //const uncompletedTodos = data.data?.filter((item: ItemData) => item.type === 2).filter((item: ItemData) => !item.completed)
 }

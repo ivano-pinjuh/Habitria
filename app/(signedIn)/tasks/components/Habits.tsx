@@ -7,7 +7,7 @@ import { useState, useEffect } from "react"
 
 import Loading from "./Loading"
 
-export default function Habits(){
+export default function Habits(data: any){
   const [habitData, setHabitData] = useState<ItemData[]>([{type: 0, title: "", id: "", note: "", positive: 0, target: 1, difficulty: 1}])
   const [filter, setFilter] = useState<undefined | number>(undefined)
   const [isLoading, setIsLoading] = useState(false)

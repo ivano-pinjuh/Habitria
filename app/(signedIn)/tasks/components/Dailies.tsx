@@ -9,7 +9,7 @@ import Loading from "./Loading"
 
 export default function Dailies(){
   const [dailiesData, setDailiesData] = useState<ItemData[]>([{type: 1, title: "", id: "", note: "", positive: 0, target: 1, difficulty: 1}])
-  const [filter, setFilter] = useState<undefined | boolean>(undefined)
+  const [filter, setFilter] = useState<undefined | boolean>(false)
   const [isLoading, setIsLoading] = useState(false)
 
   const fetchData = async () => {

@@ -10,7 +10,6 @@ export function ResetModal({ showModal, onClose, data }: any ){
 
   const closeModal = () => {
     modalRef.current?.close()
-    onClose()
   }
 
   return (

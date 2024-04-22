@@ -9,7 +9,7 @@ import Loading from "./Loading"
 
 export default function Todos(){
   const [todosData, setTodosData] = useState<ItemData[]>([{type: 2, title: "", id: "", note: "", positive: 0, target: 1, difficulty: 1}])
-  const [filter, setFilter] = useState<undefined | boolean>(undefined)
+  const [filter, setFilter] = useState<undefined | boolean>(false)
   const [isLoading, setIsLoading] = useState(false)
 
   const fetchData = async () => {
