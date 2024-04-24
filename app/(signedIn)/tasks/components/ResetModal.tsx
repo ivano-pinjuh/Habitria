@@ -1,7 +1,7 @@
 "use client"
 import { useRef } from "react"
 
-export function ResetModal({ showModal, onClose, data }: any ){
+export function ResetModal({ showModal }: any ){
   const modalRef = useRef<null | HTMLDialogElement>(null)
 
   if (showModal){
@@ -17,7 +17,7 @@ export function ResetModal({ showModal, onClose, data }: any ){
       <div className="cursor-default md:w-[520px] w-full max-w-fullbg-gray-200 flex flex-col">
 
         <div className="w-full mb-4 py-4 px-5 bg-prim-100">
-          <div className="w-full flex pb-5 flex-row justify-between items-center">
+          <div className="w-full flex flex-row justify-between items-center">
             <h1 className="text-lg font-semibold">
               Welcome back!
             </h1>
@@ -29,7 +29,10 @@ export function ResetModal({ showModal, onClose, data }: any ){
         </div>
 
         <div className="px-5 pt-4 pb-6">
-          
+          <p className="font-semibold">
+            Your Habits and Dailies have been reset (daily reset).
+          </p>
+
           <div className="flex justify-center mt-6">
             <button onClick={closeModal} className="text-red-500 text-sm flex items-center gap-1 hover:underline transition-all">
               Close
