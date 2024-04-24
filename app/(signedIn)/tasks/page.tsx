@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation'
 import { createServClient } from '@/lib/supabase/server'
-import { fetchOneItem } from '@/lib/supabase/db-actions'
+import { dailyReset, fetchOneItem } from '@/lib/supabase/db-actions'
 
 import Habits from './components/Habits'
 import Dailies from './components/Dailies'
@@ -24,12 +24,13 @@ export default async function TasksPage() {
     currentDate.getMonth() === lastResetDate.getMonth() &&
     currentDate.getDate() === lastResetDate.getDate()){
     
-    console.log("isto")
+    console.log("No Need for Daily Reset")
   }
   else {
-    // daily reset
-    console.log("gas")
+    // Daily Reset
     
+    console.log("Daily Reset Activated")
+    dailyReset()
   }
 
   return (

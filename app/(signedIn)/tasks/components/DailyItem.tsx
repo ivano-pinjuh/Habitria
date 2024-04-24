@@ -29,8 +29,7 @@ export default function DailyItem({ daily, onReload } : Props) {
 
   const onComplete = () => {
     daily.completed = !daily.completed
-    daily.positive += 1
-    updateItem(daily.id, daily.title, daily.note, daily.difficulty, { completed: daily.completed, positive: daily.positive })
+    updateItem(daily.id, daily.title, daily.note, daily.difficulty, { completed: daily.completed })
     onReload()
   }
 

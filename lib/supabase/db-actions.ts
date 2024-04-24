@@ -119,7 +119,7 @@ export async function updateNote(id: string, options? : {title?: string, note?: 
 export async function fetchOneItem(){
   const supabase = createServClient()
 
-  return await supabase.from("habits").select("*").limit(1)
+  return await supabase.from("habits").select("*").in('type', [0, 1]).order('created_at', { ascending: true }).limit(1)
 }
 
 export async function dailyReset(){
@@ -127,22 +127,38 @@ export async function dailyReset(){
 
   const data = await supabase.from("habits").select("*")
 
-  const uncompletedHabits = data.data?.filter((item: ItemData) => item.type === 0).filter((habit: ItemData) => !(habit.positive === habit.target))
-  const uncompletedDailies = data.data?.filter((item: ItemData) => item.type === 1).filter((item: ItemData) => !item.completed)
+  const currentDate = new Date().toISOString().split('T')[0]
 
-
-  const habits = data.data?.filter((item: ItemData) => item.type === 0).forEach(habit => {if(habit.positive === habit.target){
-              const [x, y] = habit.completion_rate.split('/').map(Number)
-              habit.completion_rate = `${x + 1}/${y + 1}`}
-              else {
-                const [x, y] = habit.completion_rate.split('/').map(Number)
-                habit.completion_rate = `${x}/${y + 1}`}
+  const habits = data.data?.filter((item: ItemData) => item.type === 0).map(habit => {
+    if(habit.positive === habit.target){
+      const [x, y] = habit.completion_rate.split('/').map(Number)
+      habit.completion_rate = `${x + 1}/${y + 1}`
+    }
+    else {
+      const addedValue = Number(habit.positive / habit.target).toFixed(2)
+      const [x, y] = habit.completion_rate.split('/').map(Number)
+      habit.completion_rate = `${Number(x + addedValue)}/${y + 1}`
+    }
+    habit.positive = 0
+    habit.last_reset = currentDate
+    return habit
+  })
+  
+  const dailies = data.data?.filter((item: ItemData) => item.type === 1).map(daily => {
+    if(daily.completed){
+      const [x, y] = daily.completion_rate.split('/').map(Number)
+      daily.completion_rate = `${x + 1}/${y + 1}`
+    }
+    else {
+      const [x, y] = daily.completion_rate.split('/').map(Number)
+      daily.completion_rate = `${x}/${y + 1}`
+    }
+    daily.completed = false
+    daily.last_reset = currentDate
+    return daily
   })
 
-  console.log(habits)
+  //console.log(habits?.concat(dailies))
 
-
-
-  //await supabase.from("habits").update({ title: "yes" }).eq("id", "id")
-  //const uncompletedTodos = data.data?.filter((item: ItemData) => item.type === 2).filter((item: ItemData) => !item.completed)
+  await supabase.from("habits").upsert(habits?.concat(dailies)).select()
 }
