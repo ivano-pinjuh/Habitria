@@ -16,32 +16,44 @@ export default async function TasksPage() {
     redirect('/')
   }
 
+
+  const content = await fetchData()
   
-  const itemData:any = await fetchOneItem()
-  const lastResetDate = new Date(itemData.data[0]?.last_reset)
-  const currentDate = new Date()
+  async function fetchData() {
+    try {
+      const itemData = await fetchOneItem()
 
-  let content = <></>
+      if (!itemData?.data || itemData.data.length === 0) {
+        console.error("Item data is null or empty")
+        return false
+      }
 
-  if (currentDate.getFullYear() === lastResetDate.getFullYear() &&
-    currentDate.getMonth() === lastResetDate.getMonth() &&
-    currentDate.getDate() === lastResetDate.getDate()){
-    
-    console.log("No Need for Daily Reset")
+      const lastResetDate = new Date(itemData.data[0].last_reset)
+      const currentDate = new Date();
 
-    content = <ResetModal showModal={true}></ResetModal>
+      if (currentDate.getFullYear() === lastResetDate.getFullYear() &&
+        currentDate.getMonth() === lastResetDate.getMonth() &&
+        currentDate.getDate() === lastResetDate.getDate()
+      ){
+        console.log("No Need for Daily Reset")
+        return true
+      } 
+      else {
+        console.log("Daily Reset Activated")
+        dailyReset()
+        return false
+      }
+    } 
+    catch (error) {
+      console.error("Error fetching item data:", error)
+    }
   }
-  else {
-    // Daily Reset
-    
-    console.log("Daily Reset Activated")
-    dailyReset()
-  }
+
 
   return (
     <>
     <div className="w-full">
-      {content}
+      {content && <ResetModal showModal={true}></ResetModal>}
       <div className='dark:pattern-hive-purple-500/10 pattern-hive-purple-500/15 pattern-hive-scale-75 opacity-80 fixed top-0 left-0 h-screen w-full -z-50'></div>
       
       <div className='w-full bg-bg-l-300 dark:bg-bg-d-200 h-44 px-10 py-8 shadow-lg'>
