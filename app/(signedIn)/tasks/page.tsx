@@ -7,6 +7,38 @@ import Dailies from './components/Dailies'
 import Todos from './components/Todos'
 import { ResetModal } from './components/ResetModal'
 
+
+async function fetchData() {
+  try {
+    const itemData = await fetchOneItem()
+
+    if (!itemData?.data || itemData.data.length === 0) {
+      console.error("Item data is null or empty")
+      return false
+    }
+
+    const lastResetDate = new Date(itemData.data[0].last_reset)
+    const currentDate = new Date();
+
+    if (currentDate.getFullYear() === lastResetDate.getFullYear() &&
+      currentDate.getMonth() === lastResetDate.getMonth() &&
+      currentDate.getDate() === lastResetDate.getDate()
+    ){
+      console.log("No Need for Daily Reset")
+      return true
+    } 
+    else {
+      console.log("Daily Reset Activated")
+      dailyReset()
+      return false
+    }
+  } 
+  catch (error) {
+    console.error("Error fetching item data:", error)
+  }
+}
+
+
 export default async function TasksPage() {
   const supabase = createServClient()
   const { data, error } = await supabase.auth.getUser()
@@ -19,37 +51,7 @@ export default async function TasksPage() {
 
   const content = await fetchData()
   
-  async function fetchData() {
-    try {
-      const itemData = await fetchOneItem()
-
-      if (!itemData?.data || itemData.data.length === 0) {
-        console.error("Item data is null or empty")
-        return false
-      }
-
-      const lastResetDate = new Date(itemData.data[0].last_reset)
-      const currentDate = new Date();
-
-      if (currentDate.getFullYear() === lastResetDate.getFullYear() &&
-        currentDate.getMonth() === lastResetDate.getMonth() &&
-        currentDate.getDate() === lastResetDate.getDate()
-      ){
-        console.log("No Need for Daily Reset")
-        return true
-      } 
-      else {
-        console.log("Daily Reset Activated")
-        dailyReset()
-        return false
-      }
-    } 
-    catch (error) {
-      console.error("Error fetching item data:", error)
-    }
-  }
-
-
+  
   return (
     <>
     <div className="w-full">
