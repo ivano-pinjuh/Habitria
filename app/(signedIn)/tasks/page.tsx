@@ -25,12 +25,12 @@ async function fetchData() {
       currentDate.getDate() === lastResetDate.getDate()
     ){
       console.log("No Need for Daily Reset")
-      return true
+      return false
     } 
     else {
       console.log("Daily Reset Activated")
       dailyReset()
-      return false
+      return true
     }
   } 
   catch (error) {
@@ -65,7 +65,7 @@ export default async function TasksPage() {
         </h3>*/}
       </div>
 
-      <div className='w-full flex lg:flex-row flex-col gap-y-20 lg:justify-between px-10 mt-10 '>
+      <div className='w-full flex lg:flex-row flex-col gap-y-20 lg:justify-between px-10 mt-10 pb-16'>
         <Habits />
         <Dailies />
         <Todos />

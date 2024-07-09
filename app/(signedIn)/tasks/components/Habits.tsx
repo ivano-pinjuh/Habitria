@@ -9,7 +9,7 @@ import Loading from "./Loading"
 
 export default function Habits(data: any){
   const [habitData, setHabitData] = useState<ItemData[]>([{type: 0, title: "", id: "", note: "", positive: 0, target: 1, difficulty: 1}])
-  const [filter, setFilter] = useState<undefined | number>(undefined)
+  const [filter, setFilter] = useState<undefined | boolean>(false)
   const [isLoading, setIsLoading] = useState(false)
 
   const fetchData = async () => {
@@ -64,8 +64,8 @@ export default function Habits(data: any){
         </h3>
         <div className='flex'>
         <p onClick={() => setFilter(undefined)} className={`${filter === undefined ? "border-b-2 border-bg-d-100 dark:border-bg-l-100 font-semibold" : "opacity-75 dark:opacity-50 hover:opacity-100"} cursor-pointer px-2 py-1 text-xs transition-all`}>All</p>
-          <p onClick={() => setFilter(1)} className={`${filter === 1 ? "border-b-2 border-bg-d-100 dark:border-bg-l-100 font-semibold" : "opacity-75 dark:opacity-50 hover:opacity-100"} cursor-pointer px-2 py-1 text-xs transition-all`}>Easier</p>
-          <p onClick={() => setFilter(3)} className={`${filter === 3 ? "border-b-2 border-bg-d-100 dark:border-bg-l-100 font-semibold" : "opacity-75 dark:opacity-50 hover:opacity-100"} cursor-pointer px-2 py-1 text-xs transition-all`}>Harder</p>
+          <p onClick={() => setFilter(false)} className={`${filter === false ? "border-b-2 border-bg-d-100 dark:border-bg-l-100 font-semibold" : "opacity-75 dark:opacity-50 hover:opacity-100"} cursor-pointer px-2 py-1 text-xs transition-all`}>Active</p>
+          <p onClick={() => setFilter(true)} className={`${filter === true ? "border-b-2 border-bg-d-100 dark:border-bg-l-100 font-semibold" : "opacity-75 dark:opacity-50 hover:opacity-100"} cursor-pointer px-2 py-1 text-xs transition-all`}>Completed</p>
         </div>
       </div>
           
@@ -90,17 +90,12 @@ export default function Habits(data: any){
             
 
         <div className='w-full h-full flex flex-col gap-2 rounded'>
-          {(habitData[0]?.title === "") ? (<Loading />) : (habitData.filter(habit => {
-              if (filter === undefined) return true;
-              else if (filter === 1) {
-                if (habit.difficulty === 1 || habit.difficulty === 2) return true}
-              else if (filter === 3) {
-                  if (habit.difficulty === 3 || habit.difficulty === 4) return true
-              }}).map(habit => {
-              return <HabitItem habit={habit} onReload={handleReload} key={habit.id} />
+          {(habitData[0]?.title === "") ? (<Loading />) : (habitData.filter(habit => !(habit.positive === habit.target) !== filter).map(habit => {
+            return <HabitItem habit={habit} onReload={handleReload} key={habit.id} />
           }))}
 
-          {(!(habitData[0]?.title === "") && habitData.length < 4) && 
+
+          {(!(habitData[0]?.title === "") && habitData.length < 5) && 
             <div className="w-[60%] h-40 flex flex-col justify-center m-auto">
               <p className="font-semibold text text-center">
                 These are your Habits

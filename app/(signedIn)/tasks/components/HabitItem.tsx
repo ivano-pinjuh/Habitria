@@ -69,11 +69,14 @@ export default function HabitItem({ habit, onReload } : Props) {
       
 
       <div className="w-[9%] flex justify-center rounded-l bg-prim-100">
-        <div onClick={updatePositive} className="mt-5 cursor-pointer w-7 h-7 flex items-center text-2xl justify-center bg-black bg-opacity-25 hover:bg-opacity-40 rounded-full transition-all">
-          <p className="mb-1 text-text-d-100">
-            +
+        <button onClick={updateNegative} 
+          disabled={habit.positive === 0}
+          className={`${habit.positive > 0 ? "bg-opacity-25 hover:bg-opacity-40 cursor-pointer" : "opacity-25"}
+            mt-5 w-7 h-7 flex items-center text-2xl justify-center bg-black rounded-full transition-all`}>
+          <p className="mb-[1px] text-text-d-100">
+            -
           </p>
-        </div>
+        </button>
       </div>
 
       <div className="flex justify-between w-[82%] px-3 py-2 relative" onClick={() => setShowModal(true)} >
@@ -109,11 +112,14 @@ export default function HabitItem({ habit, onReload } : Props) {
       </div>
 
       <div className="w-[9%] flex justify-center rounded-r bg-prim-100">
-        <div onClick={updateNegative} className="mt-5 cursor-pointer w-7 h-7 flex items-center text-2xl justify-center bg-black bg-opacity-25 hover:bg-opacity-40 rounded-full transition-all">
-          <p className="mb-[1px] text-text-d-100">
-            -
+        <button onClick={updatePositive} 
+          disabled={habit.positive === habit.target}
+          className={`${habit.positive !== habit.target ? "bg-opacity-25 hover:bg-opacity-40 cursor-pointer" : "opacity-25"}
+            mt-5 cursor-pointer w-7 h-7 flex items-center text-2xl justify-center bg-black bg-opacity-25 hover:bg-opacity-40 rounded-full transition-all`}>
+          <p className="mb-1 text-text-d-100">
+            +
           </p>
-        </div>
+        </button>
       </div>
 
     </div>
