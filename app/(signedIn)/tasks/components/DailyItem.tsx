@@ -53,7 +53,7 @@ export default function DailyItem({ daily, onReload } : Props) {
             after:bg-center after:bg-no-repeat after:content-[''] checked:bg-bg-l-200 dark:checked:bg-bg-d-200 hover:ring-2 hover:ring-gray-300 dark:hover:ring-bg-d-300 focus:outline-none"
             type="checkbox" 
             id="checkbox1"  />
-          <svg className="pointer-events-none absolute h-7" width="64px" height="64px" viewBox="0 0 25.00 25.00" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#FF4081" transform="rotate(0)"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#FF4081CCCCCC" stroke-width="0.15"></g><g id="SVGRepo_iconCarrier"> <path d="M5.5 11.5L10.5 16.5L19.5 7.60001" stroke="#FF4081" stroke-width="2.5"></path> </g></svg>
+          <svg className="pointer-events-none absolute h-7" width="64px" height="64px" viewBox="0 0 25.00 25.00" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#FF4081" transform="rotate(0)"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round" stroke="#FF4081CCCCCC" strokeWidth="0.15"></g><g id="SVGRepo_iconCarrier"> <path d="M5.5 11.5L10.5 16.5L19.5 7.60001" stroke="#FF4081" strokeWidth="2.5"></path> </g></svg>
         </div>
       </div>
 

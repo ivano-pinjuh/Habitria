@@ -35,33 +35,30 @@ export default async function AccountPage() {
       
 
 
-      <div className='w-full px-[25vw] pt-12'>
+      <div className='w-full px-[25vw] pt-24'>
 
         <h3 className='text-2xl font-semibold'>
-          General Settings
+          General Data
         </h3>
 
         <table className='w-full bg-bg-l-200 dark:bg-bg-d-200 mt-6 shadow-xl'>
+          <tbody>
           <tr className='h-10 border-y border-bg-d-300 dark:border-bg-l-200'>
             <td className='w-[25%] pl-2 font-semibold'>Username</td>
             <td className='text-sm'>{data.user.user_metadata.name}</td>
-            <td className='w-fit text-end pr-3 text-purple-600 font-light'>Edit</td>
+            <td className='w-fit text-end pr-3 text-purple-600 font-light cursor-pointer transition-all hover:underline'>Edit</td>
           </tr>
           <tr className='h-10 border-y border-bg-d-300 dark:border-bg-l-200'>
             <td className='pl-2 font-semibold'>Email</td>
             <td className='text-sm'>{data.user.email}</td>
-            <td className='text-end pr-3 text-purple-600 font-light'>Edit</td>
-          </tr>
-          <tr className='h-10 border-y border-bg-d-300 dark:border-bg-l-200'>
-            <td className='pl-2 font-semibold'>Password</td>
-            <td></td>
             <td></td>
           </tr>
           <tr className='h-10 border-y border-bg-d-300 dark:border-bg-l-200'>
-            <td className='pl-2 font-semibold'>Delete Account</td>
-            <td></td>
+            <td className='pl-2 font-semibold'>Account Created</td>
+            <td>{new Date(data.user.created_at).toLocaleString()}</td>
             <td></td>
           </tr>
+          </tbody>
         </table>
 
         
