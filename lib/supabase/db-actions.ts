@@ -132,7 +132,7 @@ export async function dailyReset(){
   const habits = data.data?.filter((item: ItemData) => item.type === 0).map(habit => {
     if(habit.positive === habit.target){
       const [x, y] = habit.completion_rate.split('/').map(Number)
-      habit.completion_rate = `${Number(x) + 1}/${y + 1}`
+      habit.completion_rate = `${Number(x + 1)}/${y + 1}`
     }
     else {
       const addedValue = Number(habit.positive / habit.target).toFixed(2)
@@ -147,7 +147,7 @@ export async function dailyReset(){
   const dailies = data.data?.filter((item: ItemData) => item.type === 1).map(daily => {
     if(daily.completed){
       const [x, y] = daily.completion_rate.split('/').map(Number)
-      daily.completion_rate = `${Number(x) + 1}/${y + 1}`
+      daily.completion_rate = `${Number(x + 1)}/${y + 1}`
     }
     else {
       const [x, y] = daily.completion_rate.split('/').map(Number)
