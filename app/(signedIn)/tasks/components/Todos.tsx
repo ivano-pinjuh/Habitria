@@ -2,6 +2,7 @@
 
 import TodoItem from "./TodoItem"
 
+import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd"
 import { createItem, getItems } from "@/lib/supabase/db-actions"
 import { useState, useEffect } from "react"
 
@@ -41,8 +42,17 @@ export default function Todos(){
       event.target.value = ""
       fetchData()
     } 
-  };
+  }
 
+  const handleDragEnd = (result: any) => {
+    if (!result.destination) return // If dropped outside a valid destination, exit
+
+    const updatedData = Array.from(todosData)
+    const [reorderedItem] = updatedData.splice(result.source.index, 1) // Remove dragged item
+    updatedData.splice(result.destination.index, 0, reorderedItem) // Insert it at the new index
+
+    setTodosData(updatedData)
+  }
 
   const handleReload = () => {
     fetchData()
@@ -72,7 +82,7 @@ export default function Todos(){
 
       <div className='w-full flex flex-col gap-3 bg-bg-l-300 dark:bg-bg-d-200 min-h-[600px] py-2 px-2 rounded-md mb-10'>
         <div className='group transition-all relative'>
-          <input className='placeholder:font-semibold w-full duration-300 focus:mb-14 bg-bg-l-100 dark:bg-bg-d-300 h-12 px-4 rounded outline-none shadow-md transition-all' 
+          <input className='placeholder:font-semibold w-full duration-300 focus:mb-10 bg-bg-l-100 dark:bg-bg-d-300 h-12 px-4 rounded outline-none shadow-md transition-all' 
             type="text" 
             placeholder='Add a To-Do'
             name="add-todo" 
@@ -84,15 +94,48 @@ export default function Todos(){
 
               
           <p className='absolute top-16 left-4 text-xs opacity-0 -translate-y-2 group-focus-within:translate-y-0 group-focus-within:opacity-100 duration-300 transition-all'>
-            <span className='font-semibold'>Tip:</span> To add multiple To-Do's, separate each one using a line break (Shift + Enter) and then press "Enter".
+          <span className='font-semibold'>Press "Enter"</span> to create a new To-Do.
           </p>
         </div>
             
 
         <div className='w-full flex flex-col gap-2 rounded flex-grow'>
-          {(todosData[0]?.title === "") ? (<Loading />) : (todosData.filter(daily => !daily.completed !== filter).map(todo => {
+        {(todosData[0]?.title === "") ? (
+            <Loading />
+          ) : (
+            <DragDropContext onDragEnd={handleDragEnd}>
+              <Droppable droppableId="todos-list">
+                {(provided) => (
+                  <div
+                    {...provided.droppableProps}
+                    ref={provided.innerRef}
+                    className="flex flex-col gap-2"
+                  >
+                    {todosData
+                      .filter((todo) => !todo.completed !== filter)
+                      .map((todo, index) => (
+                        <Draggable key={todo.id} draggableId={todo.id} index={index}>
+                          {(provided) => (
+                            <div
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              ref={provided.innerRef}
+                            >
+                              <TodoItem todo={todo} onReload={handleReload} />
+                            </div>
+                          )}
+                        </Draggable>
+                      ))}
+                    {provided.placeholder}
+                  </div>
+                )}
+              </Droppable>
+            </DragDropContext>
+          )}
+
+          {/*(todosData[0]?.title === "") ? (<Loading />) : (todosData.filter(daily => !daily.completed !== filter).map(todo => {
             return <TodoItem todo={todo} onReload={handleReload} key={todo.id} />
-          }))}
+          }))*/}
 
           {(!(todosData[0]?.title === "") && todosData.length < 5) && 
             <div className="w-[60%] h-40 flex flex-col justify-center m-auto">

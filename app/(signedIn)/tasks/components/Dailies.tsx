@@ -2,6 +2,7 @@
 
 import DailyItem from "./DailyItem"
 
+import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd"
 import { createItem, getItems } from "@/lib/supabase/db-actions"
 import { useState, useEffect } from "react"
 
@@ -37,12 +38,21 @@ export default function Dailies(){
   const handleBlur = (event: any) => {
     if (event.target.value.length > 0){
       setDailiesData([...dailiesData, {type: 1, title: `${event.target.value}`, id: "", note: "", positive: 0, target: 0, difficulty: 1}])
-      createItem(1, event.target.value);
-      event.target.value = "";
-      fetchData();
+      createItem(1, event.target.value)
+      event.target.value = ""
+      fetchData()
     } 
-  };
+  }
 
+  const handleDragEnd = (result: any) => {
+    if (!result.destination) return // If dropped outside a valid destination, exit
+
+    const updatedData = Array.from(dailiesData)
+    const [reorderedItem] = updatedData.splice(result.source.index, 1) // Remove dragged item
+    updatedData.splice(result.destination.index, 0, reorderedItem) // Insert it at the new index
+
+    setDailiesData(updatedData)
+  }
 
   const handleReload = () => {
     fetchData()
@@ -72,7 +82,7 @@ export default function Dailies(){
 
       <div className='w-full flex flex-col gap-3 bg-bg-l-300 dark:bg-bg-d-200 min-h-[600px] py-2 px-2 rounded-md'>
         <div className='group transition-all relative'>
-          <input className='placeholder:font-semibold w-full duration-300 focus:mb-14 bg-bg-l-100 dark:bg-bg-d-300 h-12 px-4 rounded outline-none shadow-md transition-all' 
+          <input className='placeholder:font-semibold w-full duration-300 focus:mb-10 bg-bg-l-100 dark:bg-bg-d-300 h-12 px-4 rounded outline-none shadow-md transition-all' 
             type="text" 
             placeholder='Add a Daily'
             name="add-daily" 
@@ -84,15 +94,48 @@ export default function Dailies(){
 
               
           <p className='absolute top-16 left-4 text-xs opacity-0 -translate-y-2 group-focus-within:translate-y-0 group-focus-within:opacity-100 duration-300 transition-all'>
-            <span className='font-semibold'>Tip:</span> To add multiple Dailies, separate each one using a line break (Shift + Enter) and then press "Enter".
+          <span className='font-semibold'>Press "Enter"</span> to create a new Daily.
           </p>
         </div>
             
 
         <div className='w-full flex flex-col gap-2 rounded flex-grow'>
-          {(dailiesData[0]?.title === "") ? (<Loading />) : (dailiesData.filter(daily => !daily.completed !== filter).map(daily => {
+        {(dailiesData[0]?.title === "") ? (
+            <Loading />
+          ) : (
+            <DragDropContext onDragEnd={handleDragEnd}>
+              <Droppable droppableId="dailys-list">
+                {(provided) => (
+                  <div
+                    {...provided.droppableProps}
+                    ref={provided.innerRef}
+                    className="flex flex-col gap-2"
+                  >
+                    {dailiesData
+                      .filter((daily) => !daily.completed !== filter)
+                      .map((daily, index) => (
+                        <Draggable key={daily.id} draggableId={daily.id} index={index}>
+                          {(provided) => (
+                            <div
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              ref={provided.innerRef}
+                            >
+                              <DailyItem daily={daily} onReload={handleReload} />
+                            </div>
+                          )}
+                        </Draggable>
+                      ))}
+                    {provided.placeholder}
+                  </div>
+                )}
+              </Droppable>
+            </DragDropContext>
+          )}
+
+          {/*(dailiesData[0]?.title === "") ? (<Loading />) : (dailiesData.filter(daily => !daily.completed !== filter).map(daily => {
             return <DailyItem daily={daily} onReload={handleReload} key={daily.id} />
-          }))}
+          }))*/}
 
           {(!(dailiesData[0]?.title === "") && dailiesData.length < 5) && 
             <div className="w-[60%] h-40 flex flex-col justify-center m-auto">

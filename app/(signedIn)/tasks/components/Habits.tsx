@@ -2,6 +2,7 @@
 
 import HabitItem from "./HabitItem"
 
+import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd"
 import { createItem, getItems } from "@/lib/supabase/db-actions"
 import { useState, useEffect } from "react"
 
@@ -37,11 +38,21 @@ export default function Habits(data: any){
   const handleBlur = (event: any) => {
     if (event.target.value.length > 0){
       setHabitData([...habitData, {type: 0, title: `${event.target.value}`, id: "", note: "", positive: 0, target: 1, difficulty: 1}])
-      createItem(0, event.target.value);
-      event.target.value = "";
-      fetchData();
+      createItem(0, event.target.value)
+      event.target.value = ""
+      fetchData()
     } 
-  };
+  }
+
+  const handleDragEnd = (result: any) => {
+    if (!result.destination) return // If dropped outside a valid destination, exit
+
+    const updatedData = Array.from(habitData)
+    const [reorderedItem] = updatedData.splice(result.source.index, 1) // Remove dragged item
+    updatedData.splice(result.destination.index, 0, reorderedItem) // Insert it at the new index
+
+    setHabitData(updatedData)
+  }
 
 
   const handleReload = () => {
@@ -49,7 +60,7 @@ export default function Habits(data: any){
   }
 
   useEffect(() => {
-    fetchData();
+    fetchData()
   }, [])
 
  
@@ -72,7 +83,7 @@ export default function Habits(data: any){
 
       <div className='w-full flex flex-col gap-3 bg-bg-l-300 dark:bg-bg-d-200 min-h-[600px] py-2 px-2 rounded-md'>
         <div className='group transition-all relative'>
-          <input className='placeholder:font-semibold w-full duration-300 focus:mb-14 bg-bg-l-100 dark:bg-bg-d-300 h-12 px-4 rounded outline-none shadow-md transition-all' 
+          <input className='placeholder:font-semibold w-full duration-300 focus:mb-10 bg-bg-l-100 dark:bg-bg-d-300 h-12 px-4 rounded outline-none shadow-md transition-all' 
             type="text" 
             placeholder='Add a Habit'
             name="add-habit" 
@@ -84,15 +95,49 @@ export default function Habits(data: any){
 
               
           <p className='absolute top-16 left-4 text-xs opacity-0 -translate-y-2 group-focus-within:translate-y-0 group-focus-within:opacity-100 duration-300 transition-all'>
-            <span className='font-semibold'>Tip:</span> To add multiple Habits, separate each one using a line break (Shift + Enter) and then press "Enter".
+            <span className='font-semibold'>Press "Enter"</span> to create a new Habit.
           </p>
         </div>
             
 
         <div className='w-full h-full flex flex-col gap-2 rounded'>
-          {(habitData[0]?.title === "") ? (<Loading />) : (habitData.filter(habit => !(habit.positive === habit.target) !== filter).map(habit => {
+
+        {(habitData[0]?.title === "") ? (
+            <Loading />
+          ) : (
+            <DragDropContext onDragEnd={handleDragEnd}>
+              <Droppable droppableId="habits-list">
+                {(provided) => (
+                  <div
+                    {...provided.droppableProps}
+                    ref={provided.innerRef}
+                    className="flex flex-col gap-2"
+                  >
+                    {habitData
+                      .filter((habit) => !(habit.positive === habit.target) !== filter)
+                      .map((habit, index) => (
+                        <Draggable key={habit.id} draggableId={habit.id} index={index}>
+                          {(provided) => (
+                            <div
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              ref={provided.innerRef}
+                            >
+                              <HabitItem habit={habit} onReload={handleReload} />
+                            </div>
+                          )}
+                        </Draggable>
+                      ))}
+                    {provided.placeholder}
+                  </div>
+                )}
+              </Droppable>
+            </DragDropContext>
+          )}
+
+          {/*(habitData[0]?.title === "") ? (<Loading />) : (habitData.filter(habit => !(habit.positive === habit.target) !== filter).map(habit => {
             return <HabitItem habit={habit} onReload={handleReload} key={habit.id} />
-          }))}
+          }))*/}
 
 
           {(!(habitData[0]?.title === "") && habitData.length < 5) && 
