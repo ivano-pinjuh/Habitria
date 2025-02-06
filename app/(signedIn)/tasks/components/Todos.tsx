@@ -3,7 +3,7 @@
 import TodoItem from "./TodoItem"
 
 import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd"
-import { createItem, getItems } from "@/lib/supabase/db-actions"
+import { createItem, getItems, updateItems } from "@/lib/supabase/db-actions"
 import { useState, useEffect } from "react"
 
 import Loading from "./Loading"
@@ -17,7 +17,7 @@ export default function Todos(){
     try {
       setIsLoading(true)
       const data:any = await getItems(2)
-      setTodosData(data.data.sort((a: any, b: any) => Date.parse(a.created_at) - Date.parse(b.created_at)))
+      setTodosData(data.data.sort((a: any, b: any) => a.list_order - b.list_order))
     } 
     catch (error) {
       console.error('Error fetching data:', error)
@@ -30,7 +30,7 @@ export default function Todos(){
   const handleKeyPress = (event: any) => {
     if (event.key === 'Enter' && event.target.value.length > 0) {
       setTodosData([...todosData, {type: 2, title: `${event.target.value}`, id: "", note: "", positive: 0, target: 1, difficulty: 1}])
-      createItem(2, event.target.value)
+      createItem(2, event.target.value, todosData.length)
       event.target.value = ""
       fetchData()
     }
@@ -38,7 +38,7 @@ export default function Todos(){
   const handleBlur = (event: any) => {
     if (event.target.value.length > 0){
       setTodosData([...todosData, {type: 2, title: `${event.target.value}`, id: "", note: "", positive: 0, target: 1, difficulty: 1}])
-      createItem(2, event.target.value)
+      createItem(2, event.target.value, todosData.length)
       event.target.value = ""
       fetchData()
     } 
@@ -48,10 +48,31 @@ export default function Todos(){
     if (!result.destination) return // If dropped outside a valid destination, exit
 
     const updatedData = Array.from(todosData)
+
+    // updates the list_order values of all habits when reordered so it stays updated permanently
+    if (result.source.index < result.destination.index){
+      for (let i = result.source.index; i < result.destination.index; i++){
+        updatedData[i].list_order! -= 1
+      }
+      updatedData[result.source.index].list_order = result.destination.index
+    }
+    else {
+      for (let i = result.destination.index; i < result.source.index; i++){
+        updatedData[i].list_order! += 1
+      }
+      updatedData[result.source.index].list_order = result.destination.index
+    }
+
+    
     const [reorderedItem] = updatedData.splice(result.source.index, 1) // Remove dragged item
     updatedData.splice(result.destination.index, 0, reorderedItem) // Insert it at the new index
 
+    console.log(result.source.index)
+    console.log(result.destination.index)
+
+
     setTodosData(updatedData)
+    updateItems(updatedData)
   }
 
   const handleReload = () => {

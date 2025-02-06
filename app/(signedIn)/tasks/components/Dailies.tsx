@@ -3,7 +3,7 @@
 import DailyItem from "./DailyItem"
 
 import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd"
-import { createItem, getItems } from "@/lib/supabase/db-actions"
+import { createItem, getItems, updateItems } from "@/lib/supabase/db-actions"
 import { useState, useEffect } from "react"
 
 import Loading from "./Loading"
@@ -17,7 +17,7 @@ export default function Dailies(){
     try {
       setIsLoading(true)
       const data:any = await getItems(1);
-      setDailiesData(data.data.sort((a: any, b: any) => Date.parse(a.created_at) - Date.parse(b.created_at)));
+      setDailiesData(data.data.sort((a: any, b: any) => a.list_order - b.list_order));
     } 
     catch (error) {
       console.error('Error fetching data:', error);
@@ -30,7 +30,7 @@ export default function Dailies(){
   const handleKeyPress = (event: any) => {
     if (event.key === 'Enter' && event.target.value.length > 0) {
       setDailiesData([...dailiesData, {type: 1, title: `${event.target.value}`, id: "", note: "", positive: 0, target: 0, difficulty: 1}])
-      createItem(1, event.target.value)
+      createItem(1, event.target.value, dailiesData.length)
       event.target.value = ""
       fetchData()
     }
@@ -38,7 +38,7 @@ export default function Dailies(){
   const handleBlur = (event: any) => {
     if (event.target.value.length > 0){
       setDailiesData([...dailiesData, {type: 1, title: `${event.target.value}`, id: "", note: "", positive: 0, target: 0, difficulty: 1}])
-      createItem(1, event.target.value)
+      createItem(1, event.target.value, dailiesData.length)
       event.target.value = ""
       fetchData()
     } 
@@ -46,12 +46,33 @@ export default function Dailies(){
 
   const handleDragEnd = (result: any) => {
     if (!result.destination) return // If dropped outside a valid destination, exit
-
-    const updatedData = Array.from(dailiesData)
-    const [reorderedItem] = updatedData.splice(result.source.index, 1) // Remove dragged item
-    updatedData.splice(result.destination.index, 0, reorderedItem) // Insert it at the new index
-
-    setDailiesData(updatedData)
+    
+        const updatedData = Array.from(dailiesData)
+    
+        // updates the list_order values of all habits when reordered so it stays updated permanently
+        if (result.source.index < result.destination.index){
+          for (let i = result.source.index; i < result.destination.index; i++){
+            updatedData[i].list_order! -= 1
+          }
+          updatedData[result.source.index].list_order = result.destination.index
+        }
+        else {
+          for (let i = result.destination.index; i < result.source.index; i++){
+            updatedData[i].list_order! += 1
+          }
+          updatedData[result.source.index].list_order = result.destination.index
+        }
+    
+        
+        const [reorderedItem] = updatedData.splice(result.source.index, 1) // Remove dragged item
+        updatedData.splice(result.destination.index, 0, reorderedItem) // Insert it at the new index
+    
+        console.log(result.source.index)
+        console.log(result.destination.index)
+    
+    
+        setDailiesData(updatedData)
+        updateItems(updatedData)
   }
 
   const handleReload = () => {

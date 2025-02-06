@@ -14,12 +14,19 @@ export async function getAllTasks(){
 
 // These are for /tasks page
 
-export async function createItem(type: number, title: string){
+export async function createItem(type: number, title: string, list_order?: number){
   const supabase = createServClient()
 
-  const result = await supabase
+  if (!list_order) {
+    const result = await supabase
         .from("habits")
         .insert({ title, type }).single()
+  }
+  else {
+    const result = await supabase
+        .from("habits")
+        .insert({ title, type, list_order }).single()
+  }
 
   //return JSON.stringify(result)
 }
@@ -53,6 +60,19 @@ export async function updateItem(id: string, title: string, note: string, diffic
     else {
       await supabase.from("habits").update({ title, note, difficulty }).eq("id", id)
     }
+  } 
+  catch (error) {
+    console.error('Error updating item:', error)
+  }
+
+  //revalidatePath("/tasks")
+}
+
+export async function updateItems(data: ItemData[]){
+  const supabase = createServClient()
+
+  try {
+    await supabase.from("habits").upsert(data, { onConflict: "id" })
   } 
   catch (error) {
     console.error('Error updating item:', error)
@@ -135,7 +155,9 @@ export async function dailyReset(){
       habit.completion_rate = `${Number(x) + 1}/${Number(y) + 1}`
     }
     else {
-      const addedValue = Number(habit.positive / habit.target).toFixed(2)
+      const addedValue = +(habit.positive / habit.target).toFixed(2)
+      // + ensures that the value is parsed as a number, and not a string
+
       const [x, y] = habit.completion_rate.split('/').map(Number)
       habit.completion_rate = `${Number(x) + addedValue}/${Number(y) + 1}`
     }
