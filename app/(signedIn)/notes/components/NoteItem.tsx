@@ -97,16 +97,16 @@ export default function NoteItem({ note, onReload }: Props) {
             <DropdownMenu className="bg-bg-l-200 dark:bg-bg-d-200 rounded-xl w-64 px-3 pt-2" aria-label="Background dropdown">
               <DropdownSection>
                 <DropdownItem className="hover:bg-bg-l-300 dark:hover:bg-bg-d-300 py-2 px-2 rounded hover:underline" onClick={() => updateColor(0)} key="default">
-                  default
+                  Crna
                 </DropdownItem>
                 <DropdownItem className="hover:bg-bg-l-300 dark:hover:bg-bg-d-300 py-2 px-2 rounded hover:underline" onClick={() => updateColor(1)} key="red">
-                  red
+                  Crvena
                 </DropdownItem>
                 <DropdownItem className="hover:bg-bg-l-300 dark:hover:bg-bg-d-300 py-2 px-2 rounded hover:underline" onClick={() => updateColor(2)} key="green">
-                  green
+                  Zelena
                 </DropdownItem>
                 <DropdownItem className="hover:bg-bg-l-300 dark:hover:bg-bg-d-300 py-2 px-2 rounded hover:underline" onClick={() => updateColor(3)} key="blue">
-                  blue
+                  Plava
                 </DropdownItem>
               </DropdownSection>
             </DropdownMenu>

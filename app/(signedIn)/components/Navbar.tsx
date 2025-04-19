@@ -41,7 +41,7 @@ export default function Navbar() {
 
       </div>
 
-      <div className="hidden md:block">
+      <div className="">
         <Dropdown placement="bottom-end">
           <DropdownTrigger>
             <button className="outline-none">

@@ -27,8 +27,6 @@ export async function createItem(type: number, title: string, list_order?: numbe
         .from("habits")
         .insert({ title, type, list_order }).single()
   }
-
-  //return JSON.stringify(result)
 }
 
 export async function getItems(type: number){
@@ -91,7 +89,6 @@ export async function createNote(title: undefined | string, note: undefined | st
   const result = await supabase
         .from("notes")
         .insert({ title, note }).single()
-
 }
 
 export async function getNotes(){

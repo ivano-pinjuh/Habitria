@@ -121,7 +121,7 @@ export default function Habits(data: any){
         </div>
             
 
-        <div className='w-full h-full flex flex-col gap-2 rounded'>
+        <div className='w-full flex flex-col gap-2 rounded flex-grow'>
 
         {(habitData[0]?.title === "") ? (
             <Loading />
